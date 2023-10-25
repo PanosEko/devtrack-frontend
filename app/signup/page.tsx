@@ -108,7 +108,7 @@ import {toast, Toaster} from "react-hot-toast";
 
 import Image from 'next/image'
 import { refreshToken, registerUser} from "@/lib/api/authApi";
-import {PlusCircleIcon, XCircleIcon} from "@heroicons/react/20/solid";
+import {PlusCircleIcon} from "@heroicons/react/20/solid";
 import {useModalStore} from "@/store/ModalStore";
 import {LoadingScreen} from "@/components/LoadingScreen";
 
