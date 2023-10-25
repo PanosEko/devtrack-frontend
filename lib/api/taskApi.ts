@@ -1,7 +1,8 @@
 import axios from "axios";
 import {createTaskFormData} from "@/lib/utils/createTaskFormData";
 
-const API_BASE_URL = 'http://localhost:8080/api/v1/task';
+// const API_BASE_URL = 'http://localhost:8080/api/v1/task';
+const API_BASE_URL = 'https://devtrack-backend.onrender.com/api/v1/task';
 
 export const updateTaskInDB = async (updatedTask: Task) => {
     const formData = createTaskFormData(updatedTask)
