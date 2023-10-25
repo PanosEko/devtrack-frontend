@@ -24,6 +24,7 @@ export default function LogInPage() {
             }, 1000);
         } )
             .catch((error:any) =>{
+                console.log(error)
                 setLoading(false);
             })
     }, [router]);

@@ -107,7 +107,7 @@ import {useRouter} from "next/navigation";
 import {toast, Toaster} from "react-hot-toast";
 
 import Image from 'next/image'
-import {checkTokenValidity, refreshToken, registerUser} from "@/lib/api/authApi";
+import { refreshToken, registerUser} from "@/lib/api/authApi";
 import {PlusCircleIcon, XCircleIcon} from "@heroicons/react/20/solid";
 import {useModalStore} from "@/store/ModalStore";
 import {LoadingScreen} from "@/components/LoadingScreen";
