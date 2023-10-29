@@ -15,6 +15,8 @@ export default function LogInPage() {
     })
     // const [buttonDisabled, setButtonDisabled] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
+
 
     useEffect(() => {
         refreshToken().then(() =>{
@@ -30,6 +32,7 @@ export default function LogInPage() {
     }, [router]);
 
     const onLogIn = async () => {
+        setIsSubmitting(true);
         try {
             if (!areAllFieldsFilled()) {
                 toast.error("Please fill in all fields");
@@ -44,6 +47,9 @@ export default function LogInPage() {
                 toast.error(error.response.data)
             }
             console.log("Login failed", error.message);
+        }
+        finally {
+            setIsSubmitting(false);
         }
 
         }
@@ -109,9 +115,9 @@ export default function LogInPage() {
                                             "linear-gradient(to right, #0E21A0, #EC53B0 )",
                                     }}
                                     onClick={onLogIn}
-                                    disabled={loading}
+                                    disabled={isSubmitting}
                             >
-                                {loading ? "Logging in..." : "Log in"}
+                                {isSubmitting ? "Logging in..." : "Log in"}
                             </button>
 
                         </div>

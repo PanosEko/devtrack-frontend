@@ -1,106 +1,3 @@
-// 'use client';
-// import React, { useState } from 'react';
-// import {useRouter} from "next/router";
-// import { toast } from "react-hot-toast";
-//
-// export default function SignupPage() {
-//     const router = useRouter();
-// const RegistrationForm = () => {
-//     const router = useRouter();
-//
-//     const [formData, setFormData] = useState({
-//         fullName: '',
-//         email: '',
-//         username: '',
-//         password: '',
-//         dob: '',
-//     });
-//
-//     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//         const { name, value } = e.target;
-//         setFormData({
-//             ...formData,
-//             [name]: value,
-//         });
-//     };
-//
-//     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//         e.preventDefault();
-//
-//         // Send a POST request to Spring Boot API to register the user
-//         try {
-//             const response = await fetch('http://localhost:8080/api/v1/auth/register', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                 },
-//                 body: JSON.stringify(formData),
-//             });
-//
-//             if (response.ok) {
-//
-//                 // Registration successful, handle the response accordingly
-//                 const data = await response.json();
-//                 const authToken = data.token;
-//                 console.log('Registration successful! ', authToken);
-//                 // navigate to home page
-//                 await router.push('/home')
-//             } else {
-//                 // Handle home failure
-//                 toast.error('Registration failed');
-//                 console.error('Registration failed');
-//             }
-//         } catch (error:any) {
-//             console.error('Error registering user', error);
-//             toast.error(error.message);
-//
-//         }
-//     };
-//
-//     return (
-//         <form onSubmit={handleSubmit}>
-//             <input
-//                 type="text"
-//                 name="fullName"
-//                 value={formData.fullName}
-//                 onChange={handleChange}
-//                 placeholder="Full Name"
-//             />
-//             <input
-//                 type="email"
-//                 name="email"
-//                 value={formData.email}
-//                 onChange={handleChange}
-//                 placeholder="Email"
-//             />
-//             <input
-//                 type="text"
-//                 name="username"
-//                 value={formData.username}
-//                 onChange={handleChange}
-//                 placeholder="Username"
-//             />
-//             <input
-//                 type="password"
-//                 name="password"
-//                 value={formData.password}
-//                 onChange={handleChange}
-//                 placeholder="Password"
-//             />
-//             <input
-//                 type="date"
-//                 name="dob"
-//                 value={formData.dob}
-//                 onChange={handleChange}
-//                 placeholder="Date of Birth"
-//             />
-//             <button type="submit">Register</button>
-//         </form>
-//     );
-// };
-//
-// export default RegistrationForm;
-
 "use client";
 import React, { useEffect } from "react";
 import {useRouter} from "next/navigation";
@@ -137,7 +34,7 @@ export default function SignupPage() {
             .catch((error:any) =>{
                 setLoading(false);
             })
-    }, [router]);
+    }, []);
 
     const onSignup = async () => {
         if (!areAllFieldsFilled()) {
@@ -172,46 +69,12 @@ export default function SignupPage() {
         const { email, password, username, fullName, dob } = user;
         return email.length > 0 && password.length > 0 && username.length > 0 && fullName.length > 0 && dob.length > 0;
     }
-    // const onSignup = async () => {
-    //     try {
-    //         setLoading(true);
-    //         if(user.email.length > 0 && user.password.length > 0 && user.username.length > 0 && user.fullName.length > 0 && user.dob.length > 0) {
-    //             const response = await axios.post("http://localhost:8080/api/v1/auth/register", user);
-    //             const responseError = response.data.error;
-    //             if(responseError) {
-    //                 toast.error(responseError);
-    //                 console.log(responseError);
-    //             }
-    //             else {
-    //                 const authToken = response.data.token;
-    //                 router.push("/home");
-    //             }
-    //         } else {
-    //             toast.error("Please fill in all fields");
-    //             console.log("Please fill in all fields");
-    //         }
-    //     } catch (error:any) {
-    //         console.log("Signup failed", error.message);
-    //         toast.error(error.message);
-    //     }finally {
-    //         setLoading(false);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     if(user.email.length > 0 && user.password.length > 0 && user.username.length > 0 && user.fullName.length > 0 && user.dob.length > 0) {
-    //         setButtonDisabled(false);
-    //     } else {
-    //         setButtonDisabled(true);
-    //     }
-    // }, [user]);
 
     if(loading){
         return (<LoadingScreen/>);
     }
 
     return (
-
         <section className="min-h-screen bg-neutral-200 flex justify-center items-center p-8">
             <div><Toaster/></div>
             <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 ">
@@ -322,10 +185,14 @@ export default function SignupPage() {
                                         We are more than just a company
                                     </h4>
                                     <p className="text-sm">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                        sed do eiusmod tempor incididunt ut labore et dolore magna
-                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        DevTrack is a powerful kanban board tool that helps software developers manage
+                                        their projects more efficiently. With DevTrack, you can easily create and manage
+                                        tasks, track progress, and collaborate with your team. DevTrack is perfect for
+                                        software developers of all levels, from beginners to experienced professionals.
+                                        It is easy to use and customize, and it offers a variety of features that can help
+                                        you streamline your workflow and boost your productivity. Sign up for a free
+                                        trial of DevTrack today and see how it can help you take your software
+                                        development projects to the next level!
                                     </p>
                                 </div>
                             </div>
@@ -336,63 +203,3 @@ export default function SignupPage() {
         </section>
     )
 }
-
-// <div className="bg-gradient-to-b from-[#EC53B0]
-//             to-[#0E21A0] bg-opacity-70 min-h-screen flex items-center justify-center">
-// <div className="flex flex-col items-center justify-center min-h-screen py-2">
-//     <Image src="/Untitled.png" alt="DevTrack Logo" width={600} height={200} className="w-44 md:w-56 pb-10 md:pb-0 object-contain"/>
-//     <h1>{loading ? "Processing" : "Signup"}</h1>
-//     <hr />
-//     <label htmlFor="full name">Full Name</label>
-//     <input
-//         className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black"
-//         id="fullname"
-//         type="text"
-//         value={user.fullName}
-//         onChange={(e) => setUser({...user, fullName: e.target.value})}
-//         placeholder="full name"
-//     />
-//     <label htmlFor="email">Email</label>
-//     <input
-//         className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black"
-//         id="email"
-//         type="text"
-//         value={user.email}
-//         onChange={(e) => setUser({...user, email: e.target.value})}
-//         placeholder="email"
-//     />
-//     <label htmlFor="username">Username</label>
-//     <input
-//         className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black"
-//         id="username"
-//         type="text"
-//         value={user.username}
-//         onChange={(e) => setUser({...user, username: e.target.value})}
-//         placeholder="username"
-//     />
-//     <label htmlFor="password">Password</label>
-//     <input
-//         className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black"
-//         id="password"
-//         type="password"
-//         value={user.password}
-//         onChange={(e) => setUser({...user, password: e.target.value})}
-//         placeholder="password"
-//     />
-//     <label htmlFor="dob">Date of Birth</label>
-//     <input
-//         className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black"
-//         id="dob"
-//         type="date" // Use the date input type
-//         value={user.dob}
-//         onChange={(e) => setUser({ ...user, dob: e.target.value })}
-//         placeholder="Date of Birth"
-//     />
-//     <button
-//         disabled={buttonDisabled}
-//         onClick={onSignup}
-//         className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600">{"Signup"}</button>
-//     <Link href="/login">Visit login page</Link>
-// </div>
-
-// </div>
