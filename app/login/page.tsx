@@ -47,12 +47,10 @@ export default function LogInPage() {
                 toast.error(error.response.data)
             }
             console.log("Login failed", error.message);
-        }
-        finally {
+        } finally {
             setIsSubmitting(false);
         }
-
-        }
+    }
 
     const areAllFieldsFilled = () => {
         const { password, username} = user;
@@ -73,7 +71,7 @@ export default function LogInPage() {
 
 
                     <div className="bg-white rounded-lg overflow-hidden shadow-2xl">
-                        <div className="p-8">
+                        <div className=" pt-8  pb-2 pr-8 pl-8">
 
                             {/* <!--Logo--> */}
                             <div className="max-w-md w-full mx-auto flex items-center justify-center">
@@ -117,26 +115,21 @@ export default function LogInPage() {
                                     onClick={onLogIn}
                                     disabled={isSubmitting}
                             >
-                                {/*{isSubmitting ? "Logging in..." : "Log in"}*/}
-                                {/*<div className="p-4 bg-gradient-to-tr animate-spin from-pink-400 to-blue-500 via-purple-500 rounded-full">*/}
-                                {/*    <div className="bg-white rounded-full">*/}
-                                {/*        <div className="w-24 h-24 rounded-full"></div>*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
-                                {isSubmitting ? (
-                                    <div className="p-4 bg-gradient-to-tr animate-spin from-pink-400 to-blue-500 via-purple-500 rounded-full">
-                                        <div className="bg-white rounded-full">
-                                            <div className="w-24 h-24 rounded-full"></div>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    "Log in"
-                                )}
+                                {isSubmitting ? "Logging in..." : "Log in"}
                             </button>
-
+                            <div className="flex items-center justify-center">
+                                <div className=" w-7 h-7 rounded-full">
+                                    {isSubmitting && (
+                                                <div className="p-1 bg-gradient-to-tr animate-spin from-pink-400 to-blue-500 via-purple-500 rounded-full ">
+                                                    <div className="bg-white rounded-full">
+                                                        <div className="w-5 h-5 rounded-full"></div>
+                                                    </div>
+                                                </div>
+                                        ) }
+                                </div>
+                            </div>
                         </div>
-
-                        <div className="flex flex-col items-center justify-center p-3 text-sm border-t border-gray-300 bg-gray-100 h-full">
+                        <div className="flex flex-col items-center justify-center p-2 text-sm border-t border-gray-300 bg-gray-100 h-full">
                             <a className="text-gray-600">Dont have an account?</a>
                             <a href="/signup" className="font-semibold text-indigo-500 text-lg">Sign Up</a>
                         </div>

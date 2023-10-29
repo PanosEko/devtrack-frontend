@@ -3,21 +3,19 @@ import React from 'react'
 import Image from 'next/image'
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import {useBoardStore} from "@/store/BoardStore";
-import axios from "axios";
 import {useRouter} from "next/navigation";
 import {logOutUser} from "@/lib/api/authApi";
 
 function Header() {
     const router = useRouter();
-    const [board, searchString, setSearchString] = useBoardStore((state) => [
-        state.board,
+    const [ searchString, setSearchString] = useBoardStore((state) => [
         state.searchString,
         state.setSearchString
     ])
 
     const handleLogout = async () => {
         try {
-            const response = logOutUser();
+            await logOutUser();
             router.push("/login");
         } catch (error:any) {
             console.log(error)
@@ -67,8 +65,6 @@ function Header() {
                         className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
                         Logout
                     </button>
-                    {/* Avatar */}
-                    {/*<Avatar name="Panos Eko" round size="50"/>*/}
                 </div>
             </div>
         </header>

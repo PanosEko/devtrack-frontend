@@ -1,9 +1,7 @@
 import axios from "axios";
 import {createTaskFormData} from "@/lib/utils/createTaskFormData";
 
-// const API_BASE_URL = 'http://localhost:8080/api/v1/task';
 const API_BASE_URL = 'https://api.devtrack.dedyn.io/api/v1/task';
-// TODO handle error
 export const updateTaskInDB = async (updatedTask: Task) => {
     const formData = createTaskFormData(updatedTask)
     await axios.put(API_BASE_URL, formData,

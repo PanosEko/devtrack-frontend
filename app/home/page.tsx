@@ -16,7 +16,7 @@ export default function Home() {
         refreshToken().then(() =>{
             setLoading(false);
         } )
-            .catch((error:any) =>{
+            .catch(() =>{
                 router.push('/login');
                 setTimeout(() => {
                     toast.error("You are not logged in!");
@@ -24,7 +24,7 @@ export default function Home() {
             })
         const interval = setInterval(() => {
             refreshToken().then(() =>{} )
-                .catch((error:any) =>{
+                .catch(() =>{
                     router.push('/login');
                 })
         }, 14 * 60 * 1000);

@@ -1,4 +1,3 @@
-import TypedArray = NodeJS.TypedArray;
 
 interface Board{
     columns: Map<TypedColumn, Column>
@@ -20,10 +19,4 @@ interface Task {
     image?: File | null;
 }
 
-// interface Image{
-//     imageData : Uint8Array
-//     name: string
-//     type: string
-//     id: string;
-// }
 

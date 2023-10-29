@@ -97,6 +97,7 @@ function Board() {
             updateTaskStatusInDB(taskMoved.id, taskMoved.status).then(() => {})
                 .catch((error: any) => {
                     toast.error("Task status not updated.");
+                    console.log(error)
                 });
         }
     };

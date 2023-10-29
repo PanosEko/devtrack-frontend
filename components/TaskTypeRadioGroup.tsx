@@ -57,7 +57,7 @@ function TaskTypeRadioGroup() {
                                         relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                                 }
                             >
-                                {({ active, checked }) => (
+                                {({  checked }) => (
                                     <>
                                         <div className="flex w-full items-center justify-between">
                                             <div className="flex items-center">

@@ -1,20 +1,6 @@
 import axios from "axios";
 
-// const API_BASE_URL = 'http://localhost:8080/api/v1/auth';j
-
 const API_BASE_URL = 'https://api.devtrack.dedyn.io/api/v1/auth';
-
-export const checkTokenValidity = async () => {
-    try {
-        await axios.get(`${API_BASE_URL}/checkToken`, {
-                withCredentials: true,
-            }
-        );
-    } catch (error: any) {
-        console.log("Throwing error in check func")
-        throw error;
-    }
-};
 
 export const refreshToken =  async () => {
     try{

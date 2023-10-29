@@ -3,8 +3,6 @@ import {DraggableProvidedDraggableProps, DraggableProvidedDragHandleProps} from 
 import {XCircleIcon} from "@heroicons/react/20/solid";
 import {useBoardStore} from "@/store/BoardStore";
 import Image from 'next/image';
-import {useEffect, useState} from "react";
-
 
 type Props = {
     task: Task;
@@ -67,11 +65,3 @@ function TaskCard({
 }
 
 export default TaskCard
-
-// if (task.image && !(task.image instanceof File)){
-//     imageUrl = `data:image/jpeg;base64,${task.image.imageData}`;
-//     console.log("One Image found on task card" + imageUrl)
-// } else if (task.image instanceof File) {
-//     imageUrl = URL.createObjectURL(task.image)
-//     console.log("Image found as file on taskcard for task" + task.title)
-// }

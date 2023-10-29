@@ -20,8 +20,8 @@ export default function SignupPage() {
         password: '',
         dob: '',
     })
-    const [buttonDisabled, setButtonDisabled] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
     const openModal = useModalStore((state) => state.openModal);
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export default function SignupPage() {
                 toast.success("You are already logged in !");
             }, 1000);
         } )
-            .catch((error:any) =>{
+            .catch(() =>{
                 setLoading(false);
             })
     }, []);
@@ -42,6 +42,7 @@ export default function SignupPage() {
             return;
         }
         try {
+            setIsSubmitting(true);
             const response = await registerUser(user);
             if (response.status===200) {
                 router.push('/home');
@@ -62,7 +63,10 @@ export default function SignupPage() {
                 toast.error(error.response.data)
             }
             console.log("Login failed", error.message);
+        } finally {
+            setIsSubmitting(false);
         }
+
     }
 
     const areAllFieldsFilled = () => {
@@ -159,10 +163,22 @@ export default function SignupPage() {
                                                     style={{
                                                         background:
                                                             "linear-gradient(to right, #0E21A0, #EC53B0 )",
-                                                    }} onClick={onSignup}>Sign Up
+                                                    }} onClick={onSignup}
+                                                    disabled={isSubmitting}
+                                            >
+                                                {isSubmitting ? "Signing up..." : "Sign in"}
                                             </button>
-
-
+                                            <div className="flex items-center justify-center">
+                                                <div className=" w-7 h-7 rounded-full">
+                                                    {isSubmitting && (
+                                                        <div className="p-1 bg-gradient-to-tr animate-spin from-pink-400 to-blue-500 via-purple-500 rounded-full ">
+                                                            <div className="bg-white rounded-full">
+                                                                <div className="w-5 h-5 rounded-full"></div>
+                                                            </div>
+                                                        </div>
+                                                    ) }
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div className="flex flex-col items-center justify-center p-3 text-sm border-t border-gray-300 bg-gray-100 h-full">
