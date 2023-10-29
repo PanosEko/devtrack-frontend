@@ -46,17 +46,14 @@ export default function SignupPage() {
             const response = await registerUser(user);
             if (response.status===200) {
                 router.push('/home');
-                toast((t) => (
-                    <span>
-                        Add your first Task! Click here:
-                        <button  onClick={() => {
-                            toast.dismiss(t.id);
-                            openModal();
-                        }} className="text-green-500 hover:text-green-600">
-                            <PlusCircleIcon className="h-5 w-5"/>
-                        </button>
-                    </span>
-                ));
+                setTimeout(() => {
+                    toast((t) => (
+                        <span>
+                        Add your first task by clicking the button that looks like this:
+                        <PlusCircleIcon className="h-5 w-5"/>
+                        </span>
+                    ));
+                }, 1000);
             }
         } catch (error:any) {
             if (error.response.data) {

@@ -33,10 +33,7 @@ function Modal() {
 
     useEffect(() => {
         if (identifier == null) {
-            setTaskInput("");
-            setTaskDescription("");
-            setTaskType("TODO");
-            setImage(null);
+            return;
         } else if (typeof identifier === "string" ) {
             // `identifier` is a TypedColumn value
             setTaskInput("");
@@ -52,7 +49,7 @@ function Modal() {
                 setImage(identifier.image)
             }
         }
-    }, [identifier, setTaskInput]);
+    }, [identifier]);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
