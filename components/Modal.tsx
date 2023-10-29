@@ -52,7 +52,7 @@ function Modal() {
                 setImage(identifier.image)
             }
         }
-    }, [identifier]);
+    }, [identifier, setTaskInput]);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
