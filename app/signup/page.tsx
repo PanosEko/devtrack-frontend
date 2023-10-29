@@ -6,7 +6,6 @@ import {toast, Toaster} from "react-hot-toast";
 import Image from 'next/image'
 import { refreshToken, registerUser} from "@/lib/api/authApi";
 import {PlusCircleIcon} from "@heroicons/react/20/solid";
-import {useModalStore} from "@/store/ModalStore";
 import {LoadingScreen} from "@/components/LoadingScreen";
 
 
@@ -22,7 +21,6 @@ export default function SignupPage() {
     })
     const [loading, setLoading] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
-    const openModal = useModalStore((state) => state.openModal);
 
     useEffect(() => {
         refreshToken().then(() =>{
@@ -47,11 +45,13 @@ export default function SignupPage() {
             if (response.status===200) {
                 router.push('/home');
                 setTimeout(() => {
-                    toast((t) => (
+                    toast(() => (
                         <span>
-                        Add your first task by clicking the button that looks like this:
-                        <PlusCircleIcon className="h-5 w-5"/>
-                        </span>
+                        Add your first Task by clicking the button that looks like this:
+                        <div className="text-green-500">
+                            <PlusCircleIcon className="h-5 w-5"/>
+                        </div>
+                    </span>
                     ));
                 }, 1000);
             }
