@@ -33,7 +33,10 @@ function Modal() {
 
     useEffect(() => {
         if (identifier == null) {
-            return;
+            setTaskInput("");
+            setTaskDescription("");
+            setTaskType("TODO");
+            setImage(null);
         } else if (typeof identifier === "string" ) {
             // `identifier` is a TypedColumn value
             setTaskInput("");

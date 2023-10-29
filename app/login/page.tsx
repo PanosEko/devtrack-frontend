@@ -65,14 +65,10 @@ export default function LogInPage() {
         <div className="bg-gradient-to-b from-[#EC53B0]
                     to-[#0E21A0] bg-opacity-70 min-h-screen flex items-center justify-center">
             <div><Toaster/></div>
-
             <div className="container mx-auto p-8 flex">
                 <div className="max-w-md w-full mx-auto">
-
-
                     <div className="bg-white rounded-lg overflow-hidden shadow-2xl">
                         <div className=" pt-8  pb-2 pr-8 pl-8">
-
                             {/* <!--Logo--> */}
                             <div className="max-w-md w-full mx-auto flex items-center justify-center">
                                 <Image src="/icons8-module-96.png" alt="DevTrack Logo" width={70} height={70}/>
