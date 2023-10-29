@@ -47,12 +47,14 @@ export default function SignupPage() {
                 router.push('/home');
                 setTimeout(() => {
                     toast(() => (
-                        <span>
-                        Add your first Task by clicking the button that looks like this:
-                        <div className="text-green-500">
-                            <PlusCircleIcon className="h-5 w-5"/>
-                        </div>
-                    </span>
+                        <span className="flex items-center">
+                            <span>
+                                Add your first Task by clicking the button that looks like this:
+                            </span>
+                            <div className="text-green-500 ml-2">
+                                <PlusCircleIcon className="h-5 w-5" />
+                            </div>
+                        </span>
                     ));
                 }, 1000);
             }
