@@ -34,6 +34,7 @@ export default function SignupPage() {
             })
     }, []);
 
+
     const onSignup = async () => {
         if (!areAllFieldsFilled()) {
             toast.error("Please fill in all fields");
