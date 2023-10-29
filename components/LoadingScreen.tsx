@@ -1,19 +1,4 @@
-// import React from 'react';
-// import '@/app/globals.css'
-//
-// export const LoadingScreen = () => {
-//     return (
-//         <div className="loading-screen">
-//             <div className="dot"></div>
-//             <div className="dot"></div>
-//             <div className="dot"></div>
-//             <div className="dot"></div>
-//             <div className="dot"></div>
-//         </div>
-//     );
-// };
-import Image from "next/image";
-import React from "react";
+
 
 export const LoadingScreen = () => {
     return (

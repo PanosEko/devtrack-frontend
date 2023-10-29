@@ -117,7 +117,21 @@ export default function LogInPage() {
                                     onClick={onLogIn}
                                     disabled={isSubmitting}
                             >
-                                {isSubmitting ? "Logging in..." : "Log in"}
+                                {/*{isSubmitting ? "Logging in..." : "Log in"}*/}
+                                {/*<div className="p-4 bg-gradient-to-tr animate-spin from-pink-400 to-blue-500 via-purple-500 rounded-full">*/}
+                                {/*    <div className="bg-white rounded-full">*/}
+                                {/*        <div className="w-24 h-24 rounded-full"></div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
+                                {isSubmitting ? (
+                                    <div className="p-4 bg-gradient-to-tr animate-spin from-pink-400 to-blue-500 via-purple-500 rounded-full">
+                                        <div className="bg-white rounded-full">
+                                            <div className="w-24 h-24 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    "Log in"
+                                )}
                             </button>
 
                         </div>
