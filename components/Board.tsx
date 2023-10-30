@@ -108,7 +108,7 @@ function Board() {
             <div><Toaster/></div>
             <Droppable droppableId="board" direction="horizontal" type="column">
                 {(provided) => (
-                    <div className={'grid grid-cols-1 md:grid-cols-4 gap-5 max-w-screen-2xl mx-auto'}
+                    <div className={'grid grid-cols-1 md:grid-cols-4 gap-5 max-w-screen-2xl mx-auto mt-2'}
                          {...provided.droppableProps}
                          ref={provided.innerRef}>
                         {Array.from(board.columns.entries()).map(([id, column], index) => (
