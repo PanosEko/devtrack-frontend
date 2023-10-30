@@ -24,23 +24,13 @@ function Header() {
 
     return (
         <header>
-            <div className="flex flex-col md:flex-row items-center p-5 bg-gray-500/10 rounded-b-2xl">\
+            <div className="flex flex-col md:flex-row items-center p-5 bg-gray-500/10 rounded-b-2xl">
                 <div
                     className="absolute
                     top-0
                     left-0
                     w-full
                     h-full
-                    bg-gray-200
-                    -z-50
-                    "
-                />
-                <div
-                    className="absolute
-                    top-0
-                    left-0
-                    w-full
-                    h-96
                     bg-gradient-to-br
                     from-[#0E21A0]
                     to-[#EC53B0]
