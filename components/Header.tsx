@@ -30,7 +30,7 @@ function Header() {
                     top-0
                     left-0
                     w-full
-                    h-full
+                    h-[45rem]
                     bg-gradient-to-br
                     from-[#0E21A0]
                     to-[#EC53B0]
@@ -67,7 +67,6 @@ function Header() {
                     </button>
                 </div>
             </div>
-
         </header>
     )
 }
