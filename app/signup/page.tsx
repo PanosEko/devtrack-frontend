@@ -52,7 +52,7 @@ export default function SignupPage() {
                                 Add your first Task by clicking the button that looks like this:
                             </span>
                             <div className="text-green-500 ml-2">
-                                <PlusCircleIcon className="h-5 w-5" />
+                                <PlusCircleIcon className="h-10 w-10" />
                             </div>
                         </span>
                     ));
@@ -87,21 +87,20 @@ export default function SignupPage() {
                         <div className="g-0 lg:flex lg:flex-wrap">
                             {/* <!-- Left column container--> */}
                             <div className="px-4 md:px-0 lg:w-6/12">
-                                <div className="md:mx-6 md:p-12">
+                                <div className="md:mx-8 md:p-12">
                                     {/* <!--Logo--> */}
                                     <div className="max-w-md w-full mx-auto flex items-center justify-center">
                                         <Image src="/icons8-module-96.png" alt="DevTrack Logo" width={70} height={70}/>
                                         <h1 className="bg-gradient-to-r from-blue-800 via-purple-800 to-pink-500 bg-clip-text text-transparent text-5xl font-semibold text-center">
                                             DevTrack
                                         </h1>
-                                        {/*    <Image src="/Untitled.png" alt="DevTrack Logo" width={300} height={150}/>*/}
                                     </div>
-                                    <h4 className=" mb-6 mt-1 pb-1 text-xl bg-gradient-to-r from-blue-700 via-purple-800 to-pink-500 bg-clip-text text-transparent font-semibold text-center">
+                                    <h4 className=" mt-1 pb-1 text-xl bg-gradient-to-r from-blue-700 via-purple-800 to-pink-500 bg-clip-text text-transparent font-semibold text-center">
                                         Made for developers by developers
                                     </h4>
 
                                     <div className="bg-white rounded-lg overflow-hidden shadow-2xl">
-                                        <div className="p-8">
+                                        <div className="pr-8 pl-8 pt-8 pb-2">
 
                                             <div className="mb-4">
                                                 <label htmlFor="fullname" className="block mb-2 text-sm font-medium text-gray-600">Full Name</label>
@@ -144,7 +143,7 @@ export default function SignupPage() {
                                                        onChange={(e) => setUser({...user, username: e.target.value})}
                                                        className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none" />
                                             </div>
-                                            <div className="mb-4">
+                                            <div className="mb-6">
                                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-600">Password</label>
 
                                                 <input  id="password"
@@ -154,7 +153,7 @@ export default function SignupPage() {
                                                         className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none" />
                                             </div>
 
-                                            <button className="mb-2 mt-2 inline-block w-full rounded px-6 pb-2 pt-2.5 font-medium
+                                            <button className="mb-2 mt-2 inline-block w-full rounded px-6 pb-2 pt-2.5 font-medium h-12
                                                 uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition
                                                 duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]
                                                 focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]
@@ -166,7 +165,7 @@ export default function SignupPage() {
                                                     }} onClick={onSignup}
                                                     disabled={isSubmitting}
                                             >
-                                                {isSubmitting ? "Signing up..." : "Sign in"}
+                                                {isSubmitting ? "Signing up..." : "Sign up"}
                                             </button>
                                             <div className="flex items-center justify-center">
                                                 <div className=" w-7 h-7 rounded-full">
@@ -181,14 +180,14 @@ export default function SignupPage() {
                                             </div>
                                         </div>
 
-                                        <div className="flex flex-col items-center justify-center p-3 text-sm border-t border-gray-300 bg-gray-100 h-full">
+                                        <div className="flex flex-col items-center justify-center p-2 text-sm border-t border-gray-300 bg-gray-100 h-full">
                                             <a className="text-gray-600">Already have an account?</a>
                                             <a href="/login" className="font-semibold text-indigo-500 text-lg">Log In</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {/* <!-- Right column container with background and description--> */}
+                            {/* <!-- Right column container--> */}
                             <div
                                 className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
                                 style={{

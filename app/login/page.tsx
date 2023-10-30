@@ -68,7 +68,7 @@ export default function LogInPage() {
             <div className="container mx-auto p-8 flex">
                 <div className="max-w-md w-full mx-auto">
                     <div className="bg-white rounded-lg overflow-hidden shadow-2xl">
-                        <div className=" pt-8  pb-2 pr-8 pl-8">
+                        <div className=" pt-8 pb-2 pr-8 pl-8">
                             {/* <!--Logo--> */}
                             <div className="max-w-md w-full mx-auto flex items-center justify-center">
                                 <Image src="/icons8-module-96.png" alt="DevTrack Logo" width={70} height={70}/>
@@ -98,7 +98,7 @@ export default function LogInPage() {
                                         className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none" />
                             </div>
 
-                            <button className="mb-3 mt-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium
+                            <button className="mb-1 mt-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium
                                                 uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition
                                                 duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]
                                                 focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]
