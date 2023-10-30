@@ -24,7 +24,17 @@ function Header() {
 
     return (
         <header>
-            <div className="flex flex-col md:flex-row items-center p-5 bg-gray-500/10 rounded-b-2xl">
+            <div className="flex flex-col md:flex-row items-center p-5 bg-gray-500/10 rounded-b-2xl">\
+                <div
+                    className="absolute
+                    top-0
+                    left-0
+                    w-full
+                    h-full
+                    bg-gray-200
+                    -z-50
+                    "
+                />
                 <div
                     className="absolute
                     top-0
@@ -39,7 +49,7 @@ function Header() {
                     filter
                     blur-3xl
                     opacity-60
-                    -z-50
+                    -z-40
                     "
                 />
 
@@ -67,6 +77,7 @@ function Header() {
                     </button>
                 </div>
             </div>
+
         </header>
     )
 }
