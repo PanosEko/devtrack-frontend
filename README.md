@@ -2,6 +2,17 @@
 The DevTrack Frontend repository contains the frontend code for the DevTrack web application. It is built using React, Next.js, Tailwind CSS, Zustand, and other relevant technologies, all written in TypeScript. 
 The frontend is responsible for displaying the page content, handling user interactions, and making requests to the authentication and resource servers.
 
+## Live Demo
+You can access a live demo of the DevTrack web application here.
+
+Demo Credentials:
+- Username: demo_user
+- Password: demo_password
+The live demo showcases a prepopulated kanban board with predefined tasks and images, allowing you to explore the functionality of DevTrack without having to create an account or add tasks manually.
+
+## Important Note
+**Please read this before accessing the website!****Server Startup Delay:** Please note that the resource-auth server for this website is hosted on a free instance on Render.com. As a result, there might be a delay of approximately 3 minutes when accessing the website for the first time or after a period of inactivity.The free hosting instance on Render.com may spin down after a period of inactivity, causing this initial delay. Subsequent accesses to the website will be faster once the server is up and running.We apologize for any inconvenience caused by this delay and appreciate your patience. 
+
 ## Features
 - User Authentication: Sign up and log in functionality to securely authenticate users.
 - Kanban Board: Display tasks in a kanban-style board with columns such as "Todo" and "Done."
