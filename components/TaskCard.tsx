@@ -3,6 +3,8 @@ import {DraggableProvidedDraggableProps, DraggableProvidedDragHandleProps} from 
 import {XCircleIcon} from "@heroicons/react/20/solid";
 import {useBoardStore} from "@/store/BoardStore";
 import Image from 'next/image';
+import React from 'react';
+
 
 type Props = {
     task: Task;
@@ -56,6 +58,7 @@ function TaskCard({
                         width={400}
                         height={400}
                         className="w-full object-contain rounded-b-md"
+                        priority={true}
                     />
                 </div>
             )}
@@ -64,4 +67,4 @@ function TaskCard({
     )
 }
 
-export default TaskCard
+export default React.memo(TaskCard);
