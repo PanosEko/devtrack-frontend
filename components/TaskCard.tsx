@@ -3,8 +3,7 @@ import {DraggableProvidedDraggableProps, DraggableProvidedDragHandleProps} from 
 import {XCircleIcon} from "@heroicons/react/20/solid";
 import {useBoardStore} from "@/store/BoardStore";
 import Image from 'next/image';
-import React from 'react';
-
+import {useEffect} from "react";
 
 type Props = {
     task: Task;
@@ -28,11 +27,15 @@ function TaskCard({
 }: Props) {
 
     let imageUrl: string = ""; // Declare imageUrl variable
-    if(task.image) {
-        imageUrl = URL.createObjectURL(task.image)
-    }
+    // if(task.image) {
+    //     imageUrl = URL.createObjectURL(task.image)
+    // }
 
     const deleteTask = useBoardStore((state) => state.deleteTask)
+    if (task.imagePreview) {
+
+        imageUrl = `data:image/jpeg;base64,${task.imagePreview}`;
+    }
 
 
     return(
@@ -58,7 +61,6 @@ function TaskCard({
                         width={400}
                         height={400}
                         className="w-full object-contain rounded-b-md"
-                        priority={true}
                     />
                 </div>
             )}
@@ -67,4 +69,4 @@ function TaskCard({
     )
 }
 
-export default React.memo(TaskCard);
+export default TaskCard

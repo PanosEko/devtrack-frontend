@@ -1,6 +1,6 @@
 import {create} from 'zustand'
 import {fetchBoardData} from "@/lib/utils/fetchBoardData";
-import {addTaskInDB, deleteTaskInDB, updateTaskInDB} from "@/lib/api/taskApi";
+import {addTaskInDB, deleteTaskInDB, updateTaskInDB} from "@/lib/api/resourcesApi";
 
 interface BoardState{
     board: Board;
@@ -28,11 +28,12 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         columns: new Map<TypedColumn, Column>()
     },
 
-    searchString: "",
     taskInput: "",
     taskDescription: "",
     taskType: "TODO",
     image: null,
+
+    searchString: "",
     setSearchString: (searchString) => set({ searchString }),
 
     getBoard: async() => {
@@ -73,7 +74,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 
         newTask.id = await addTaskInDB(newTask);
 
-        set({taskInput: ""});
+        // set({taskInput: ""});
         set((state) => {
             const newColumns = new Map(state.board.columns);
 
@@ -96,7 +97,8 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         });
     },
 
-    updateTask: async (title: string, columnId: TypedColumn, description: string, task: Task, taskIndex: number, image?: File  | null) =>{
+    updateTask: async (title: string, columnId: TypedColumn, description: string, task: Task,
+                       taskIndex: number, image?: File  | null) =>{
         const newColumns = new Map(get().board.columns);
 
         const updatedTask: Task = {
@@ -136,4 +138,6 @@ export const useBoardStore = create<BoardState>((set, get) => ({
             };
         });
     },
+
+
 }));

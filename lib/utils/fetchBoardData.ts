@@ -1,4 +1,4 @@
-import {fetchTasks} from "@/lib/api/taskApi";
+import {fetchTasks} from "@/lib/api/resourcesApi";
 
 export const fetchBoardData = async () => {
     const tasks = await fetchTasks();
@@ -29,7 +29,9 @@ const groupTasksByColumn = (tasks :any) => {
             status: task.status,
             createdById: task.createdById,
             description: task.description,
+            ...(task.image && { imagePreview: task.image.imageData}),
             ...(task.image && { image: convertImageDataToBlobFile(task.image) }),
+
         });
         return acc;
     }, new Map());
@@ -64,4 +66,10 @@ const convertImageDataToBlobFile = (image: any) => {
     }
     const blob = new Blob([byteString], { type: image.type });
     return new File([blob], image.name, { type: image.type });
+};
+
+const imageByteArrayToURL = (imagePreview: Uint8Array) => {
+    console.log(imagePreview)
+    var blob = new Blob([imagePreview], { type: "image/jpeg" });
+    return URL.createObjectURL(blob);
 };

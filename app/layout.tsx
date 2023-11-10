@@ -1,6 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import Modal from "@/components/Modal";
+import AddTaskModal from "@/components/AddTaskModal";
 import React from "react";
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
       {children}
-      <Modal />
+      <AddTaskModal />
       </body>
     </html>
   )

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { useBoardStore } from '@/store/BoardStore';
 import Column from '@/components/Column';
-import { updateTaskStatusInDB} from "@/lib/api/taskApi";
+import { updateTaskStatusInDB} from "@/lib/api/resourcesApi";
 import {toast, Toaster} from "react-hot-toast";
 
 function Board() {
