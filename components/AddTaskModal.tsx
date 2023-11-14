@@ -9,9 +9,6 @@ import {PhotoIcon} from "@heroicons/react/20/solid";
 import Image from "next/image";
 import {uploadImageInDB, deleteImageInDB} from "@/lib/api/resourcesApi";
 
-
-
-
 function AddTaskModal() {
 
     const imagePickerRef = useRef<HTMLInputElement>(null);

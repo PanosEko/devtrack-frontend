@@ -1,4 +1,4 @@
-import {create} from 'zustand'
+import {create} from 'zustand';
 import {fetchBoardData} from "@/lib/utils/fetchBoardData";
 import {addTaskInDB, deleteTaskInDB, fetchImagePreview, updateTaskInDB} from "@/lib/api/resourcesApi";
 
