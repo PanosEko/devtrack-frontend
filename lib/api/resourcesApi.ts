@@ -16,15 +16,11 @@ export const updateTaskInDB = async (updatedTask: Task) => {
     );
 }
 
-export const addTaskInDB = async (task: Task) => {
+export const addTaskInDB = async (task: Task, imageId: string  | null) => {
     try {
-        const formData = createTaskFormData(task)
-        const response = await axios.post(TASK_BASE_URL, formData,
+        const response = await axios.post(TASK_BASE_URL, {...task, imageId},
             {
                 withCredentials: true,
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
             }
         );
         return response.data.toString();
@@ -101,6 +97,20 @@ export const uploadImageInDB = async (image: File) => {
         throw error;
     }
 };
+
+export const fetchImagePreview = async (imageId: string) => {
+
+    try {
+        const response = await axios.get(`${IMAGE_BASE_URL}/${imageId}`,
+            {
+                withCredentials: true,
+            });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 
 
 

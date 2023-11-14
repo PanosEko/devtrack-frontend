@@ -30,12 +30,10 @@ function TaskCard({
     // if(task.image) {
     //     imageUrl = URL.createObjectURL(task.image)
     // }
-
     const deleteTask = useBoardStore((state) => state.deleteTask)
-    if (task.imagePreview) {
-
-        imageUrl = `data:image/jpeg;base64,${task.imagePreview}`;
-    }
+    // if (task.imagePreview) {
+    //     console.log(task.imagePreview)
+    // }
 
 
     return(
@@ -53,10 +51,10 @@ function TaskCard({
                     <XCircleIcon className=" h-6 w-6" />
                 </button>
             </div>
-            {imageUrl && (
+            {task.imagePreview && (
                 <div className="h-full w-full rounded-b-md">
                     <Image
-                        src={imageUrl}
+                        src={`data:image/jpeg;base64,${task.imagePreview.data}`}
                         alt="Task image"
                         width={400}
                         height={400}

@@ -8,7 +8,6 @@ import TaskTypeRadioGroup from "@/components/TaskTypeRadioGroup";
 import {PhotoIcon} from "@heroicons/react/20/solid";
 import Image from "next/image";
 import {uploadImageInDB, deleteImageInDB} from "@/lib/api/resourcesApi";
-import {set} from "zod";
 
 
 
@@ -16,16 +15,14 @@ import {set} from "zod";
 function AddTaskModal() {
 
     const imagePickerRef = useRef<HTMLInputElement>(null);
-    const [isUploading, setIsUploading] = React.useState(true);
-    const [imageId, setImageId] = React.useState(0);
+    const [isUploading, setIsUploading] = React.useState(false);
+    const [imageId, setImageId] = React.useState<string | null>(null);
 
-
-    const [image, setImage, addTask, updateTask, taskInput, taskType, taskDescription,
+    const [image, setImage, addTask, taskInput, taskType, taskDescription,
         setTaskInput, setTaskType, setTaskDescription] = useBoardStore((state)=> [
         state.image,
         state.setImage,
         state.addTask,
-        state.updateTask,
         state.taskInput,
         state.taskType,
         state.taskDescription,
@@ -52,7 +49,7 @@ function AddTaskModal() {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if ( status == null ) return;
-        addTask(taskInput, taskType, taskDescription, image);
+        addTask(taskInput, taskType, taskDescription, imageId);
         closeAddTaskModal();
     }
 
@@ -61,17 +58,17 @@ function AddTaskModal() {
             setIsUploading(true);
             const imageId = await uploadImageInDB(image);
             setImageId(imageId)
-            // setIsUploading(false);
+            setIsUploading(false);
         } catch (error) {
             console.error(error);
-            // setIsUploading(false);
+            setIsUploading(false);
         }
     };
 
     const handleClose =  async () =>{
         closeAddTaskModal();
         if(imageId){
-            await deleteImageInDB(String(imageId))
+            await deleteImageInDB(imageId)
         }
     }
 
@@ -108,6 +105,10 @@ function AddTaskModal() {
                         >
                             <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl
                             bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                {/*<Dialog.Title as="h3"*/}
+                                {/*className="text-lg font-medium leading-6 text-gray-900 pb-2">*/}
+                                {/*Task Title:*/}
+                                {/*</Dialog.Title>*/}
 
                                 <div className="mt-2">
                                     <input type="text"
@@ -165,27 +166,6 @@ function AddTaskModal() {
                                                 </div>
                                             </div>
                                         </div>
-
-
-                                        // <div className="relative w-200 h-200">
-                                        //     <div className='flex space-x-2 justify-center items-center'>
-                                        //         <div className="h-2 w-2 rounded-lg bg-black animate-pulse [animation-delay:-0.3s]"></div>
-                                        //         <div className="h-2 w-2 rounded-lg bg-black animate-pulse [animation-delay:-0.2s]"></div>
-                                        //         <div className="h-2 w-2 rounded-lg bg-black animate-pulse [animation-delay:-0.1]"></div>
-                                        //         <div className="h-2 w-2 rounded-lg bg-black animate-pulse "></div>
-                                        //     </div>
-                                        //     <div className="absolute inset-0 w-full h-full bg-indigo-300 bg-opacity-75"></div>
-                                        //     <Image
-                                        //         alt="uploaded image"
-                                        //         width={200}
-                                        //         height={200}
-                                        //         className="w-full h-44 object-cover mt-2 filter hover:grayscale
-                                        //     transition-all duration-150 cursor-not-allowed"
-                                        //         src={URL.createObjectURL(image)}
-                                        //     />
-                                        //
-                                        // </div>
-
                                     )}
                                     {image && !isUploading && (
                                             <Image
@@ -197,8 +177,10 @@ function AddTaskModal() {
                                                 src={URL.createObjectURL(image)}
                                                 onClick={() => {
                                                     setImage(null);
-                                                    deleteImageInDB(String(imageId))
-                                                    setImageId(0)
+                                                    if (imageId) {
+                                                        deleteImageInDB(imageId)
+                                                    }
+                                                    setImageId(null)
                                                 }}
                                             />
                                     )}

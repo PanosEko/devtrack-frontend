@@ -1,6 +1,6 @@
 import {create} from 'zustand'
 import {fetchBoardData} from "@/lib/utils/fetchBoardData";
-import {addTaskInDB, deleteTaskInDB, updateTaskInDB} from "@/lib/api/resourcesApi";
+import {addTaskInDB, deleteTaskInDB, fetchImagePreview, updateTaskInDB} from "@/lib/api/resourcesApi";
 
 interface BoardState{
     board: Board;
@@ -17,7 +17,7 @@ interface BoardState{
     searchString: string;
     setSearchString: (searchString: string) => void;
 
-    addTask: (title: string, columnId: TypedColumn,  taskDescription: string, image?: File | null) => void;
+    addTask: (title: string, columnId: TypedColumn,  taskDescription: string,  imageId: string  | null) => void;
     deleteTask: (taskIndex: number, task: Task, id: TypedColumn) => void;
     updateTask: (title: string, columnId: TypedColumn, description: string, task: Task, taskIndex: number, image?: File | null) => void;
     setImage: (image:  File  | null) => void;
@@ -59,9 +59,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         await deleteTaskInDB(task.id);
     },
 
-    //TODO description
-    addTask: async (title: string, columnId: TypedColumn, taskDescription : string, image?: File  | null) =>{
-        // let file: Image | undefined;
+    addTask: async (title: string, columnId: TypedColumn, taskDescription : string, imageId: string  | null) =>{
 
         const newTask: Task = {
             id: "",
@@ -69,12 +67,14 @@ export const useBoardStore = create<BoardState>((set, get) => ({
             title: title,
             description: taskDescription,
             status: columnId,
-            image: image
         };
 
-        newTask.id = await addTaskInDB(newTask);
+        newTask.id = await addTaskInDB(newTask, imageId);
 
-        // set({taskInput: ""});
+        if (imageId){
+            newTask.imagePreview = await fetchImagePreview(imageId)
+        }
+
         set((state) => {
             const newColumns = new Map(state.board.columns);
 
@@ -107,7 +107,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
             title: title,
             description: description,
             status: columnId,
-            image: image
+            // image: image
         };
 
         await updateTaskInDB(updatedTask);

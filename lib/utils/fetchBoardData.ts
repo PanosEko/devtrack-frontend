@@ -29,10 +29,10 @@ const groupTasksByColumn = (tasks :any) => {
             status: task.status,
             createdById: task.createdById,
             description: task.description,
-            ...(task.image && { imagePreview: task.image.imageData}),
-            ...(task.image && { image: convertImageDataToBlobFile(task.image) }),
+            ...(task.imagePreview && { imagePreview: task.imagePreview}),
 
         });
+
         return acc;
     }, new Map());
 };

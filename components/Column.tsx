@@ -21,7 +21,7 @@ const idToColumnText: {
 
 function Column({id, tasks, index} :Props) {
     const [searchString] = useBoardStore((state) => [state.searchString]);
-    const openModal = useModalStore((state) => state.openModal);
+    const openUpdateTaskModal = useModalStore((state) => state.openUpdateTaskModal);
     const openAddTaskModal = useModalStore((state) => state.openAddTaskModal);
 
 
@@ -75,7 +75,7 @@ function Column({id, tasks, index} :Props) {
                                              draggableProps={provided.draggableProps}
                                              dragHandleProps={provided.dragHandleProps}
                                              // onDoubleClick={openModal}
-                                             onDoubleClick={() => openModal(task, index)} // Pass the task to the openModal function
+                                             onDoubleClick={() => openUpdateTaskModal(task, index)} // Pass the task to the openModal function
                                          />
                                      )}
                                  </Draggable>
