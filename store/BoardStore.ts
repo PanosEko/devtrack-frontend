@@ -1,6 +1,6 @@
 import {create} from 'zustand';
 import {fetchBoardData} from "@/lib/utils/fetchBoardData";
-import {addTaskInDB, deleteTaskInDB, fetchImagePreview, updateTaskInDB} from "@/lib/api/resourcesApi";
+import {addTaskInDB, deleteTaskInDB, fetchThumbnail, updateTaskInDB} from "@/lib/api/resourcesApi";
 
 interface BoardState{
     board: Board;
@@ -12,15 +12,15 @@ interface BoardState{
     setTaskType: (columnId: TypedColumn) => void;
     taskDescription: string
     setTaskDescription: (input: string) => void;
-    image: File | null;
+    thumbnail: Thumbnail | null;
 
     searchString: string;
     setSearchString: (searchString: string) => void;
 
-    addTask: (title: string, columnId: TypedColumn,  taskDescription: string,  imageId: string  | null) => void;
+    addTask: (title: string, columnId: TypedColumn,  taskDescription: string,  thumbnail: Thumbnail  | null) => void;
     deleteTask: (taskIndex: number, task: Task, id: TypedColumn) => void;
-    updateTask: (title: string, columnId: TypedColumn, description: string, task: Task, taskIndex: number, image?: File | null) => void;
-    setImage: (image:  File  | null) => void;
+    updateTask: (title: string, columnId: TypedColumn, description: string, task: Task, taskIndex: number, thumbnail: Thumbnail | null) => void;
+    setThumbnail: (thumbnail: Thumbnail  | null) => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
@@ -31,7 +31,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     taskInput: "",
     taskDescription: "",
     taskType: "TODO",
-    image: null,
+    thumbnail: null,
 
     searchString: "",
     setSearchString: (searchString) => set({ searchString }),
@@ -46,7 +46,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     setTaskInput: (input: string) => set({ taskInput: input}),
     setTaskDescription: (input: string) => set({ taskDescription: input}),
     setTaskType: (columnId: TypedColumn) => set({taskType: columnId}),
-    setImage: (image: File | null) => set({ image }),
+    setThumbnail: (thumbnail: Thumbnail  | null) => set({ thumbnail }),
 
     deleteTask: async (taskIndex: number, task: Task, status: TypedColumn) =>{
         const newColumns = new Map(get().board.columns);
@@ -59,7 +59,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         await deleteTaskInDB(task.id);
     },
 
-    addTask: async (title: string, columnId: TypedColumn, taskDescription : string, imageId: string  | null) =>{
+    addTask: async (title: string, columnId: TypedColumn, taskDescription : string, thumbnail: Thumbnail  | null) =>{
 
         const newTask: Task = {
             id: "",
@@ -67,13 +67,12 @@ export const useBoardStore = create<BoardState>((set, get) => ({
             title: title,
             description: taskDescription,
             status: columnId,
+            thumbnail: null
         };
 
-        newTask.id = await addTaskInDB(newTask, imageId);
+        newTask.id = await addTaskInDB(newTask, thumbnail);
+        newTask.thumbnail = thumbnail
 
-        if (imageId){
-            newTask.imagePreview = await fetchImagePreview(imageId)
-        }
 
         set((state) => {
             const newColumns = new Map(state.board.columns);
@@ -98,7 +97,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     },
 
     updateTask: async (title: string, columnId: TypedColumn, description: string, task: Task,
-                       taskIndex: number, image?: File  | null) =>{
+                       taskIndex: number, thumbnail: Thumbnail  | null) =>{
         const newColumns = new Map(get().board.columns);
 
         const updatedTask: Task = {
@@ -107,10 +106,10 @@ export const useBoardStore = create<BoardState>((set, get) => ({
             title: title,
             description: description,
             status: columnId,
-            // image: image
+            thumbnail: null
         };
 
-        await updateTaskInDB(updatedTask);
+        await updateTaskInDB(updatedTask, thumbnail);
         // delete task from newColumns
         newColumns.get(task.status)?.tasks.splice(taskIndex, 1);
 

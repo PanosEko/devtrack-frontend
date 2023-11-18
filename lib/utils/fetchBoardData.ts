@@ -29,7 +29,7 @@ const groupTasksByColumn = (tasks :any) => {
             status: task.status,
             createdById: task.createdById,
             description: task.description,
-            ...(task.imagePreview && { imagePreview: task.imagePreview}),
+            ...(task.thumbnail && { thumbnail: task.thumbnail}),
 
         });
 
@@ -58,7 +58,7 @@ const sortColumns = (columns: any, columnTypes: any) => {
 };
 
 
-const convertImageDataToBlobFile = (image: any) => {
+const convertImageDataToFile = (image: any) => {
     const imageData = atob(image.imageData);
     const byteString = new Uint8Array(imageData.length);
     for (let i = 0; i < imageData.length; i++) {
@@ -68,8 +68,7 @@ const convertImageDataToBlobFile = (image: any) => {
     return new File([blob], image.name, { type: image.type });
 };
 
-const imageByteArrayToURL = (imagePreview: Uint8Array) => {
-    console.log(imagePreview)
-    var blob = new Blob([imagePreview], { type: "image/jpeg" });
+const imageByteArrayToURL = (thumbnain: Uint8Array) => {
+    var blob = new Blob([thumbnain], { type: "image/jpeg" });
     return URL.createObjectURL(blob);
 };

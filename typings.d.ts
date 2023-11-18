@@ -16,10 +16,10 @@ interface Task {
     title: string;
     description: string;
     status: TypedColumn;
-    imagePreview?: ImagePreview ;
+    thumbnail: Thumbnail | null;
 }
 
-interface ImagePreview {
+interface Thumbnail {
     id: string;
     data: Uint8Array ;
 }

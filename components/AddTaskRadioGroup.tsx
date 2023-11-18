@@ -13,7 +13,7 @@ const types = [
     {
         id: 'IN_PROGRESS',
         name: 'In Progress',
-        description: 'A task that is currently being worked out',
+        description: 'A task that is currently being worked on',
         color: 'bg-yellow-500',
     },
     {
@@ -29,7 +29,7 @@ const types = [
         color: 'bg-green-500',
     }
 ]
-function TaskTypeRadioGroup() {
+function AddTaskRadioGroup() {
     const [ setNewTaskType, newTaskType ] = useBoardStore((state)=>[
         state.setTaskType,
         state.taskType
@@ -99,4 +99,4 @@ function TaskTypeRadioGroup() {
     )
 }
 
-export default TaskTypeRadioGroup
+export default AddTaskRadioGroup

@@ -4,7 +4,7 @@ import React, { Fragment, FormEvent, useEffect, useRef} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {useModalStore} from "@/store/ModalStore";
 import {useBoardStore} from "@/store/BoardStore";
-import TaskTypeRadioGroup from "@/components/TaskTypeRadioGroup";
+import AddTaskRadioGroup from "@/components/AddTaskRadioGroup";
 import {PhotoIcon} from "@heroicons/react/20/solid";
 import Image from "next/image";
 import {uploadImageInDB, deleteImageInDB} from "@/lib/api/resourcesApi";
@@ -13,12 +13,11 @@ function AddTaskModal() {
 
     const imagePickerRef = useRef<HTMLInputElement>(null);
     const [isUploading, setIsUploading] = React.useState(false);
-    const [imageId, setImageId] = React.useState<string | null>(null);
 
-    const [image, setImage, addTask, taskInput, taskType, taskDescription,
+    const [thumbnail, setThumbnail, addTask, taskInput, taskType, taskDescription,
         setTaskInput, setTaskType, setTaskDescription] = useBoardStore((state)=> [
-        state.image,
-        state.setImage,
+        state.thumbnail,
+        state.setThumbnail,
         state.addTask,
         state.taskInput,
         state.taskType,
@@ -29,32 +28,35 @@ function AddTaskModal() {
     ]);
 
     // Get the task and closeModal from the store
-    const { isAddTaskModalOpen, status, closeAddTaskModal } = useModalStore();
+    const { isAddTaskModalOpen, status, closeAddTaskModal, imageFile, setImageFile } = useModalStore();
 
     useEffect(() => {
         if (status == null) {
             return;
         } else {
-            // `identifier` is a TypedColumn value
             setTaskInput("");
             setTaskDescription("");
             setTaskType(status);
-            setImage(null);
+            setThumbnail(null);
         }
     }, [status]);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if ( status == null ) return;
-        addTask(taskInput, taskType, taskDescription, imageId);
+        addTask(taskInput, taskType, taskDescription, thumbnail);
         closeAddTaskModal();
     }
 
     const handleImageUpload= async (image: File) => {
         try{
             setIsUploading(true);
-            const imageId = await uploadImageInDB(image);
-            setImageId(imageId)
+            const response = await uploadImageInDB(image);
+            const thumbnail: Thumbnail = {
+                id: response.id,
+                data: response.data,
+            }
+            setThumbnail(thumbnail);
             setIsUploading(false);
         } catch (error) {
             console.error(error);
@@ -64,8 +66,8 @@ function AddTaskModal() {
 
     const handleClose =  async () =>{
         closeAddTaskModal();
-        if(imageId){
-            await deleteImageInDB(imageId)
+        if(thumbnail){
+            await deleteImageInDB(thumbnail)
         }
     }
 
@@ -125,25 +127,24 @@ function AddTaskModal() {
                                         rows={3}
                                     />
                                 </div>
-                                <TaskTypeRadioGroup/>
+                                <AddTaskRadioGroup/>
 
                                 <div>
-                                    {!image &&(
+                                    {!thumbnail && !isUploading && (
                                         <button
                                             type="button"
                                             onClick={() => {
                                                 imagePickerRef.current?.click();
                                             }}
-                                            // disabled={isUploading}
+                                            disabled={isUploading}
                                             className="w-full border border-gray-300 rounded-md outline-none p-5 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                         >
-
                                             <PhotoIcon className="h-6 w-6 mr-2 inline-block" />
-                                            {isUploading ?  "Uploading..." : "Upload image"}
+                                            Upload image
                                         </button>
                                     )}
 
-                                    {image && isUploading && (
+                                    {imageFile && isUploading && (
 
                                         <div className="relative items-center block h-200 w-200">
                                             {/*<div className="absolute inset-0 w-full h-full bg-indigo-300 bg-opacity-75"></div>*/}
@@ -152,7 +153,7 @@ function AddTaskModal() {
                                                 width={200}
                                                 height={200}
                                                 className="w-full h-44 object-cover mt-2 filter transition-all opacity-25"
-                                                src={URL.createObjectURL(image)}
+                                                src={URL.createObjectURL(imageFile)}
                                             />
                                             <div role="status" className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                                                 <div className='flex space-x-2 justify-center items-center'>
@@ -164,20 +165,20 @@ function AddTaskModal() {
                                             </div>
                                         </div>
                                     )}
-                                    {image && !isUploading && (
+                                    {thumbnail && !isUploading && (
                                             <Image
                                                 alt="uploaded image"
                                                 width={200}
                                                 height={200}
                                                 className="w-full h-44 object-cover mt-2 filter hover:grayscale
                                             transition-all duration-150 cursor-not-allowed"
-                                                src={URL.createObjectURL(image)}
+                                                // src={URL.createObjectURL(image)}
+                                                src={`data:image/jpeg;base64,${thumbnail.data}`}
                                                 onClick={() => {
-                                                    setImage(null);
-                                                    if (imageId) {
-                                                        deleteImageInDB(imageId)
+                                                    if (thumbnail) {
+                                                        deleteImageInDB(thumbnail)
                                                     }
-                                                    setImageId(null)
+                                                    setThumbnail(null);
                                                 }}
                                             />
                                     )}
@@ -187,7 +188,7 @@ function AddTaskModal() {
                                         hidden
                                         onChange={async (e) => {
                                             if (!e.target.files![0].type.startsWith("image/")) return;
-                                            setImage(e.target.files![0]);
+                                            setImageFile(e.target.files![0]); // TODO 1
                                             await handleImageUpload(e.target.files![0])
                                         }}
                                     />

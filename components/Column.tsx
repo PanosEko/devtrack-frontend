@@ -21,8 +21,9 @@ const idToColumnText: {
 
 function Column({id, tasks, index} :Props) {
     const [searchString] = useBoardStore((state) => [state.searchString]);
-    const openUpdateTaskModal = useModalStore((state) => state.openUpdateTaskModal);
     const openAddTaskModal = useModalStore((state) => state.openAddTaskModal);
+    const openUpdateTaskModal = useModalStore((state) => state.openUpdateTaskModal);
+
 
 
     return  (
