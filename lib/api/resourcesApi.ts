@@ -19,14 +19,13 @@ const IMAGE_BASE_URL = 'http://localhost:8080/api/v1/resources/images';
 // }
 
 export const updateTaskInDB = async (task: Task, image: Thumbnail | null) => {
-    // const formData = createTaskFormData(updatedTask)
     try{
-    const response = await axios.put(TASK_BASE_URL, { ...task, imageId: image ? image.id : undefined},
-        {
-            withCredentials: true,
-        }
-    );
-        return response.data.toString();
+        const response = await axios.put(TASK_BASE_URL, { ...task, imageId: image ? image.id : undefined},
+            {
+                withCredentials: true,
+            }
+        );
+            return response.data.toString();
     } catch (error) {
         throw error;
     }
@@ -83,10 +82,10 @@ export const updateTaskStatusInDB = async (taskId: string, newStatus: string) =>
     }
 };
 
-export const deleteImageInDB = async (thumbnail: Thumbnail) => {
+export const deleteImageInDB = async (id: String) => {
 
     try {
-        const response = await axios.delete(`${IMAGE_BASE_URL}/${thumbnail.id}`,
+        const response = await axios.delete(`${IMAGE_BASE_URL}/${id}`,
             {
                 withCredentials: true,
             });

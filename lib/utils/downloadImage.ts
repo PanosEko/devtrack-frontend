@@ -31,12 +31,11 @@ export function base64ToArrayBuffer(base64: string) {
     // return bytes.map((byte, i) => binaryString.charCodeAt(i));
 }
 
-export function saveByteArray(reportName, byte) {
-    var blob = new Blob([byte], {type: "application/pdf"});
+export function saveByteArray(filename, filetype, byte) {
+    var blob = new Blob([byte], {type: filetype});
     var link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    var fileName = reportName;
-    link.download = fileName;
+    link.download = filename;
     link.click();
 };
 

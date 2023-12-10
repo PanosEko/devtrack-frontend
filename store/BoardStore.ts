@@ -1,6 +1,6 @@
 import {create} from 'zustand';
 import {fetchBoardData} from "@/lib/utils/fetchBoardData";
-import {addTaskInDB, deleteTaskInDB, fetchThumbnail, updateTaskInDB} from "@/lib/api/resourcesApi";
+import {addTaskInDB, deleteTaskInDB, updateTaskInDB} from "@/lib/api/resourcesApi";
 
 interface BoardState{
     board: Board;
@@ -73,7 +73,6 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         newTask.id = await addTaskInDB(newTask, thumbnail);
         newTask.thumbnail = thumbnail
 
-
         set((state) => {
             const newColumns = new Map(state.board.columns);
 
@@ -110,6 +109,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         };
 
         await updateTaskInDB(updatedTask, thumbnail);
+        updatedTask.thumbnail = thumbnail;
         // delete task from newColumns
         newColumns.get(task.status)?.tasks.splice(taskIndex, 1);
 

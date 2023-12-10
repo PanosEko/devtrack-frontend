@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, FormEvent, useEffect, useRef} from 'react'
+import React, {Fragment, FormEvent, useEffect, useRef, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {useModalStore} from "@/store/ModalStore";
 import {useBoardStore} from "@/store/BoardStore";
@@ -9,7 +9,6 @@ import {PhotoIcon} from "@heroicons/react/20/solid";
 import {TrashIcon,ArrowDownTrayIcon} from "@heroicons/react/24/outline";
 import Image from "next/image";
 import {uploadImageInDB, deleteImageInDB, fetchImage} from "@/lib/api/resourcesApi";
-import {lookaheadType} from "sucrase/dist/types/parser/tokenizer";
 import {
     saveByteArray, convertImageDataToFile,
     base64ToArrayBuffer,
@@ -36,29 +35,32 @@ function UpdateTaskModal() {
     ]);
 
     // Get the task and closeModal from the store
-    const { isUpdateTaskModalOpen, task, status, closeUpdateTaskModal, imageFile, setImageFile } = useModalStore();
+    const { isUpdateTaskModalOpen, task, closeUpdateTaskModal, imageFile, setImageFile, taskIndex } = useModalStore();
+    const [originalImageId, setOriginalImageId] = useState<String>("");
 
 
     useEffect(() => {
-        if (task == null) {
-            console.log("task is null")
-            return;
-        }else{
-            console.log("task is not null" + task.title)
+        if(task) {
+            console.log("useEffect - task:", task);
             // `identifier` is a Task
             setTaskInput(task.title);
             setTaskType(task.status);
             setTaskDescription(task.description);
-            if(task.thumbnail){
+            if (task.thumbnail) {
                 setThumbnail(task.thumbnail)
+                setOriginalImageId(task.thumbnail.id)
+            } else{
+                setThumbnail(null);
             }
         }
     }, [task,isUpdateTaskModalOpen]);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if ( status == null ) return;
-        updateTask(taskInput, taskType, taskDescription, thumbnail);
+        updateTask(taskInput, taskType, taskDescription, task, taskIndex, thumbnail);
+        if (thumbnail && originalImageId && thumbnail.id !== originalImageId){
+            deleteImageInDB(originalImageId)
+        }
         closeUpdateTaskModal();
     }
 
@@ -78,17 +80,27 @@ function UpdateTaskModal() {
         }
     };
 
+    const handleImageDelete= async () => {
+        if (thumbnail && thumbnail.id !== originalImageId) {
+            deleteImageInDB(thumbnail.id)
+            task.thumbnail = null;
+        }
+        setThumbnail(null);
+        setImageFile(null);
+    }
+
     const handleImageDownload= async () => {
         try{
             if (thumbnail == null) return;
             if ("id" in thumbnail) {
-                const response = await fetchImage(thumbnail.id);
+                const response = await fetchImage(thumbnail.imageId);
                 console.log(response)
                 console.log(response.headers['content-disposition'])
                 const filename = response.headers['content-disposition'].split('filename=\"')[1].slice(0, -1);
-                console.log(filename)
+                const filetype = response.headers['content-type'];
+                console.log(filename, filetype)
                 const sampleArray = base64ToArrayBuffer(response.data);
-                saveByteArray(filename, sampleArray);
+                saveByteArray(filename,filetype, sampleArray);
             }
         } catch (error) {
             console.error(error);
@@ -98,11 +110,11 @@ function UpdateTaskModal() {
         }
     };
 
-    const handleClose =  async () =>{
+    const handleClose =  async () => {
+        if(thumbnail && !originalImageId) {
+            deleteImageInDB(thumbnail.id)
+        }
         closeUpdateTaskModal();
-        // if(thumbnail){
-        //     await deleteImageInDB(thumbnail)
-        // }
     }
 
     return (
@@ -164,22 +176,22 @@ function UpdateTaskModal() {
                                 <AddTaskRadioGroup/>
 
                                 <div>
+                                    {/* image not selected*/}
                                     {!thumbnail && !isUploading && (
                                         <button
                                             type="button"
                                             onClick={() => {
                                                 imagePickerRef.current?.click();
                                             }}
-                                            disabled={isUploading}
+                                            // disabled={isUploading}
                                             className="w-full border border-gray-300 rounded-md outline-none p-5 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                         >
                                             <PhotoIcon className="h-6 w-6 mr-2 inline-block" />
                                             Upload image
                                         </button>
                                     )}
-
+                                    {/*image is uploading*/}
                                     {imageFile && isUploading && (
-
                                         <div className="relative items-center block h-200 w-200">
                                             {/*<div className="absolute inset-0 w-full h-full bg-indigo-300 bg-opacity-75"></div>*/}
                                             <Image
@@ -199,20 +211,14 @@ function UpdateTaskModal() {
                                             </div>
                                         </div>
                                     )}
+                                    {/*image uploaded and thumbnail is set*/}
                                     {thumbnail && !isUploading && (
                                         <Image
                                             alt="uploaded image"
                                             width={200}
                                             height={200}
-                                            className="w-full h-44 object-cover mt-2 "
-                                            // src={URL.createObjectURL(image)}
+                                            className="w-full h-full object-cover mt-2 "
                                             src={`data:image/jpeg;base64,${thumbnail.data}`}
-                                            // onClick={() => {
-                                            //     if (thumbnail) {
-                                            //         deleteImageInDB(thumbnail)
-                                            //     }
-                                            //     setThumbnail(null);
-                                            // }}
                                         />
                                     )}
                                     <input
@@ -232,7 +238,7 @@ function UpdateTaskModal() {
                                             className="bg-blue-100 text-blue-900 p-2 mr-5 rounded-md focus-visible:ring-2
                                             focus-visible:ring-blue-900 focus:outline-none focus-visible:ring-offset-2
                                             disabled:text-gray-300 disabled:bg-gray-100 "
-                                            disabled={isUploading}
+                                            disabled={isUploading || !thumbnail}
                                             onClick={handleImageDownload}
                                         >
 
@@ -244,16 +250,21 @@ function UpdateTaskModal() {
                                             className="bg-red-100 text-blue-900 p-2 rounded-md focus-visible:ring-2
                                             focus-visible:ring-blue-900 focus:outline-none focus-visible:ring-offset-2
                                             disabled:text-gray-300 disabled:bg-gray-100 "
-                                            disabled={isUploading}
-                                            onClick={() => {
-                                                if (thumbnail) {
-                                                    deleteImageInDB(thumbnail)
-                                                }
-                                                setThumbnail(null);
-                                            }}
+                                            disabled={isUploading || !thumbnail}
+                                            onClick={handleImageDelete}
                                         >
                                             <TrashIcon className="h-4 w-4 mr-2 inline-block" />
                                             Delete Image
+                                        </button>
+                                    </div>
+                                    <div className="text-center p-2">
+                                        <button
+                                            type="submit"
+                                            className="bg-blue-100 text-blue-900 p-2 rounded-md focus-visible:ring-2
+                                            focus-visible:ring-blue-900 focus:outline-none focus-visible:ring-offset-2
+                                            disabled:text-gray-300 disabled:bg-gray-100 "
+                                            disabled={!taskInput || isUploading}>
+                                            Save Changes
                                         </button>
                                     </div>
                                     {/*<div className="text-center p-2">*/}

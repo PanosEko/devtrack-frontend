@@ -67,7 +67,7 @@ function AddTaskModal() {
     const handleClose =  async () =>{
         closeAddTaskModal();
         if(thumbnail){
-            await deleteImageInDB(thumbnail)
+            await deleteImageInDB(thumbnail.id)
         }
     }
 
@@ -130,6 +130,7 @@ function AddTaskModal() {
                                 <AddTaskRadioGroup/>
 
                                 <div>
+                                    {/*image not selected*/}
                                     {!thumbnail && !isUploading && (
                                         <button
                                             type="button"
@@ -143,9 +144,8 @@ function AddTaskModal() {
                                             Upload image
                                         </button>
                                     )}
-
+                                    {/*image is uploading*/}
                                     {imageFile && isUploading && (
-
                                         <div className="relative items-center block h-200 w-200">
                                             {/*<div className="absolute inset-0 w-full h-full bg-indigo-300 bg-opacity-75"></div>*/}
                                             <Image
@@ -165,6 +165,7 @@ function AddTaskModal() {
                                             </div>
                                         </div>
                                     )}
+                                    {/*image uploaded and thumbnail set*/}
                                     {thumbnail && !isUploading && (
                                             <Image
                                                 alt="uploaded image"
@@ -176,7 +177,7 @@ function AddTaskModal() {
                                                 src={`data:image/jpeg;base64,${thumbnail.data}`}
                                                 onClick={() => {
                                                     if (thumbnail) {
-                                                        deleteImageInDB(thumbnail)
+                                                        deleteImageInDB(thumbnail.id)
                                                     }
                                                     setThumbnail(null);
                                                 }}

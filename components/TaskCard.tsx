@@ -56,9 +56,9 @@ function TaskCard({
                     <Image
                         src={`data:image/jpeg;base64,${task.thumbnail.data}`}
                         alt="Task image"
-                        width={400}
-                        height={400}
-                        className="w-full object-contain rounded-b-md"
+                        width={200}
+                        height={200}
+                        className="w-full h-44 object-cover rounded-b-md"
                     />
                 </div>
             )}
