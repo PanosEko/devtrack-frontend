@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useBoardStore } from "@/store/BoardStore";
 import Column from "@/components/Column";
-import { updateTaskStatusInDB } from "@/lib/api/resourcesApi";
+import { updateTaskStatusInDB} from "@/lib/api/resourcesApi";
 import { toast, Toaster } from "react-hot-toast";
 
 function Board() {
@@ -16,7 +16,7 @@ function Board() {
     getBoard();
   }, [getBoard]);
 
-  const handleOnDragEnd = (result: DropResult) => {
+  const handleOnDragEnd = async (result: DropResult) => {
     const { destination, source, type } = result;
     // Check if user dragged card outside of board
     if (!destination) return;
@@ -71,44 +71,43 @@ function Board() {
       });
     } else {
       // dragging to another column
-      updateTaskStatusInDB(taskMoved.id, finishCol.id)
-        .then(() => {
-          const finishTasks = Array.from(finishCol.tasks);
-          finishTasks.splice(destination.index, 0, taskMoved);
+      try{
+        const finishTasks = Array.from(finishCol.tasks);
+        finishTasks.splice(destination.index, 0, taskMoved);
 
-          const newColumns = new Map(board.columns);
-          const newCol = {
-            id: startCol.id,
-            tasks: newTasks,
-          };
+        const newColumns = new Map(board.columns);
+        const newCol = {
+          id: startCol.id,
+          tasks: newTasks,
+        };
 
-
-          newColumns.set(startCol.id, newCol);
-          newColumns.set(finishCol.id, {
-            id: finishCol.id,
-            tasks: finishTasks,
-          });
-          taskMoved.status = finishCol.id;
-          setBoardState({ ...board, columns: newColumns });
-        })
-        .catch((error: any) => {
-          // Revert changes
-          newTasks.splice(destination.index, 0, taskMoved);
-          const newCol = {
-            id: startCol.id,
-            tasks: newTasks,
-          };
-          const newColumns = new Map(board.columns);
-          newColumns.set(startCol.id, newCol);
-
-          setBoardState({
-            ...board,
-            columns: newColumns,
-          });
-
-          toast.error("Connection lost. Task status not updated.");
-          console.log(error);
+        newColumns.set(startCol.id, newCol);
+        newColumns.set(finishCol.id, {
+          id: finishCol.id,
+          tasks: finishTasks,
         });
+        taskMoved.status = finishCol.id;
+        setBoardState({ ...board, columns: newColumns });
+        await updateTaskStatusInDB(taskMoved.id, finishCol.id)
+      } catch (error: any) {
+        // Revert changes
+        newTasks.splice(destination.index, 0, taskMoved);
+        const newCol = {
+          id: startCol.id,
+          tasks: newTasks,
+        };
+        const newColumns = new Map(board.columns);
+        newColumns.set(startCol.id, newCol);
+
+        setBoardState({
+          ...board,
+          columns: newColumns,
+        });
+
+        toast.error("Connection lost. Task status not updated.");
+        console.log(error);
+      }
+
     }
   };
 
@@ -137,3 +136,41 @@ function Board() {
 }
 
 export default Board;
+// updateTaskStatusInDB(taskMoved.id, finishCol.id)
+//   .then(() => {
+//     const finishTasks = Array.from(finishCol.tasks);
+//     finishTasks.splice(destination.index, 0, taskMoved);
+//
+//     const newColumns = new Map(board.columns);
+//     const newCol = {
+//       id: startCol.id,
+//       tasks: newTasks,
+//     };
+//
+//
+//     newColumns.set(startCol.id, newCol);
+//     newColumns.set(finishCol.id, {
+//       id: finishCol.id,
+//       tasks: finishTasks,
+//     });
+//     taskMoved.status = finishCol.id;
+//     setBoardState({ ...board, columns: newColumns });
+//   })
+//   .catch((error: any) => {
+//     // Revert changes
+//     newTasks.splice(destination.index, 0, taskMoved);
+//     const newCol = {
+//       id: startCol.id,
+//       tasks: newTasks,
+//     };
+//     const newColumns = new Map(board.columns);
+//     newColumns.set(startCol.id, newCol);
+//
+//     setBoardState({
+//       ...board,
+//       columns: newColumns,
+//     });
+//
+//     toast.error("Connection lost. Task status not updated.");
+//     console.log(error);
+//   });
