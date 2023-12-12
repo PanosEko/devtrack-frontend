@@ -85,6 +85,7 @@ function Board() {
             tasks: newTasks,
           };
 
+
           newColumns.set(startCol.id, newCol);
           newColumns.set(finishCol.id, {
             id: finishCol.id,
