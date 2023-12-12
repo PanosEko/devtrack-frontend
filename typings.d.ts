@@ -16,7 +16,12 @@ interface Task {
     title: string;
     description: string;
     status: TypedColumn;
-    image?: File | null;
+    thumbnail: Thumbnail | null;
+}
+
+interface Thumbnail {
+    id: string;
+    data: Uint8Array ;
 }
 
 

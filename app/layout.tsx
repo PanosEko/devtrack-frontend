@@ -1,7 +1,8 @@
-import './globals.css'
+ import './globals.css'
 import type { Metadata } from 'next'
-import Modal from "@/components/Modal";
+import AddTaskModal from "@/components/AddTaskModal";
 import React from "react";
+import UpdateTaskModal from "@/components/UpdateTaskModal";
 
 export const metadata: Metadata = {
   title: 'DevTrack',
@@ -13,11 +14,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="en">
       <body>
       {children}
-      <Modal />
+      <AddTaskModal />
+      <UpdateTaskModal />
       </body>
     </html>
   )
