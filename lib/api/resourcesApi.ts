@@ -3,8 +3,8 @@ import axios from "axios";
 // const TASK_BASE_URL = "http://localhost:8080/api/v1/resources/tasks";
 // const IMAGE_BASE_URL = "http://localhost:8080/api/v1/resources/images";
 
-const TASK_BASE_URL = 'https://api.devtrack.dedyn.io/api/resources/v1/tasks';
-const IMAGE_BASE_URL = 'https://api.devtrack.dedyn.io/api/resources/v1/images';
+const TASK_BASE_URL = 'https://api.devtrack.dedyn.io/api/v1/resources/tasks';
+const IMAGE_BASE_URL = 'https://api.devtrack.dedyn.io/api/v1/resources/images';
 
 
 export const updateTaskInDB = async (task: Task, image: Thumbnail | null) => {
