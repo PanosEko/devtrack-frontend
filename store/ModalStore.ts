@@ -3,9 +3,9 @@ import {create} from "zustand";
 interface ModalState {
     isAddTaskModalOpen: boolean;
     isUpdateTaskModalOpen: boolean;
-    task: Task; // Add the task property
+    task: Task | null; // Add the task property
     status: TypedColumn| null;
-    taskIndex :number | null;
+    taskIndex : number | null;
     imageFile: File | null;
     setImageFile: (imageFile: File | null) => void;
     // openModal: (identifier?: Task | TypedColumn, index? :number) => void;
@@ -21,6 +21,7 @@ export const useModalStore = create<ModalState>((set) => ({
     status: null,
     isAddTaskModalOpen: false,
     isUpdateTaskModalOpen: false,
+    task: null,
     taskIndex: null,
     imageFile: null,
     openAddTaskModal: (status: TypedColumn) =>
@@ -29,12 +30,9 @@ export const useModalStore = create<ModalState>((set) => ({
 
     openUpdateTaskModal: (task: Task, taskIndex: number) =>{
         console.log("openUpdateTaskModal - task:", task);
-        set({ isUpdateTaskModalOpen: true, task: task, taskIndex: taskIndex})},
+        set({ isUpdateTaskModalOpen: true, task: task!, taskIndex: taskIndex!})},
     closeUpdateTaskModal: () => set({ isUpdateTaskModalOpen: false, taskIndex: null}), // Clear the task
 
     setImageFile: (imageFile: File | null) => set({ imageFile }),
 
-    // openModal: (identifier?: Task | TypedColumn,  taskIndex? :number) =>
-    //     set({ isOpen: true, identifier: identifier || null, taskIndex: taskIndex  }),
-    // closeModal: () => set({ isOpen: false, identifier: null, taskIndex: null }), // Clear the task
 }));

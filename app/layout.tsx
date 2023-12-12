@@ -1,4 +1,4 @@
-import './globals.css'
+ import './globals.css'
 import type { Metadata } from 'next'
 import AddTaskModal from "@/components/AddTaskModal";
 import React from "react";
@@ -21,7 +21,6 @@ export default function RootLayout({
       {children}
       <AddTaskModal />
       <UpdateTaskModal />
-
       </body>
     </html>
   )
