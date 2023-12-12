@@ -32,4 +32,4 @@ Demo Credentials:
 - Username: demo_user
 - Password: demo_password
 
-Loggin in with these demo credentials gives you access to a prepopulated kanban board with predefined tasks and images, allowing you to explore the functionality of DevTrack without having to create an account or add tasks manually.
+Loggin in with these demo credentials gives you access to a prepopulated kanban board with predefined tasks and images, allowing you to explore the functionality of DevTrack without having to create an account or add tasks manually. To add a new task just press the green button with the plus icon. To edit or view the details of a task just double click on the task.
