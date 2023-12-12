@@ -29,7 +29,6 @@ export const useModalStore = create<ModalState>((set) => ({
     closeAddTaskModal: () => set({ isAddTaskModalOpen: false, status: null}), // Clear the task
 
     openUpdateTaskModal: (task: Task, taskIndex: number) =>{
-        console.log("openUpdateTaskModal - task:", task);
         set({ isUpdateTaskModalOpen: true, task: task!, taskIndex: taskIndex!})},
     closeUpdateTaskModal: () => set({ isUpdateTaskModalOpen: false, taskIndex: null}), // Clear the task
 

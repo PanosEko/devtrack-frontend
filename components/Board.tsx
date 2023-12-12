@@ -38,8 +38,6 @@ function Board() {
     const columns = Array.from(board.columns);
     const startColIndex = columns[Number(source.droppableId)];
     const finishColIndex = columns[Number(destination.droppableId)];
-    console.log(startColIndex);
-    console.log("finish col index: " + finishColIndex);
     const startCol: Column = {
       id: startColIndex[0],
       tasks: startColIndex[1].tasks,
@@ -49,7 +47,6 @@ function Board() {
       id: finishColIndex[0],
       tasks: finishColIndex[1].tasks,
     };
-    console.log(startCol);
 
     if (!startCol || !finishCol) return;
 

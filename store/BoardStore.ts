@@ -128,7 +128,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       thumbnail: null,
     };
 
-    await updateTaskInDB(updatedTask, thumbnail);
+    updateTaskInDB(updatedTask, thumbnail);
     updatedTask.thumbnail = thumbnail;
     // delete task from newColumns
     newColumns.get(task.status)?.tasks.splice(taskIndex, 1);

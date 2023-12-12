@@ -20,7 +20,9 @@ function UpdateTaskModal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = React.useState(false);
   // used to delete the original image in the database if the user uploads a new one and saves the changes
-  let originalImageId: string | null = null;
+  // let originalImageId: string | null = null;
+  const originalImageIdRef = useRef<string | null>(null);
+
 
   const [
     thumbnail,
@@ -45,19 +47,23 @@ function UpdateTaskModal() {
   ]);
 
   // Get the task and closeModal from the store
-  const {
+  const [
     isUpdateTaskModalOpen,
     task,
     closeUpdateTaskModal,
     imageFile,
     setImageFile,
     taskIndex,
-  } = useModalStore();
-
+  ] = useModalStore((state) => [
+    state.isUpdateTaskModalOpen,
+    state.task,
+    state.closeUpdateTaskModal,
+    state.imageFile,
+    state.setImageFile,
+    state.taskIndex,
+  ]);
   useEffect(() => {
     if (task) {
-      console.log("useEffect - task:", task);
-      // `identifier` is a Task
       setTaskInput(task.title);
       setTaskType(task.status);
       setTaskDescription(task.description);
@@ -69,15 +75,20 @@ function UpdateTaskModal() {
     }
   }, [task, isUpdateTaskModalOpen]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!task || !taskIndex) return;
+    if (task===null || taskIndex===null) {
+      console.log("Task or taskIndex is null")
+      return;
+    }
     try {
-      updateTask(taskInput, taskType, taskDescription, task, taskIndex, thumbnail,);
       // if the original image has been deleted in app, delete it from the database
-      if (originalImageId) {
-        deleteImageInDB(originalImageId);
+      console.log("before original image id", originalImageIdRef.current)
+      if (originalImageIdRef.current !== null) {
+        console.log("deleting original image", originalImageIdRef.current)
+        await deleteImageInDB(originalImageIdRef.current);
       }
+      updateTask(taskInput, taskType, taskDescription, task, taskIndex, thumbnail);
       closeUpdateTaskModal();
     } catch (error) {
       toast.error("Connection lost. Task not updated.");
@@ -101,13 +112,15 @@ function UpdateTaskModal() {
   };
 
   const handleImageDelete = async () => {
-    if (!thumbnail || !task) return;
+    if (thumbnail === null || task === null) return;
     // if the original image has been deleted in app, store its id
-    if (!originalImageId) {
-      originalImageId = thumbnail.id;
+    if (originalImageIdRef.current === null) {
+      console.log("storing original image id", thumbnail.id)
+      originalImageIdRef.current = thumbnail.id;
+      console.log("original image id stored", originalImageIdRef.current)
     }
     // if the current thumbnail is not the original image, delete it from the database
-    if (thumbnail.id !== originalImageId) {
+    if (thumbnail.id !== originalImageIdRef.current) {
       deleteImageInDB(thumbnail.id);
       task.thumbnail = null;
     }
@@ -133,7 +146,7 @@ function UpdateTaskModal() {
 
   const handleClose = async () => {
     // if the original image has been deleted in app, delete it from the database
-    if (thumbnail && originalImageId) {
+    if (thumbnail && originalImageIdRef.current !== null) {
       deleteImageInDB(thumbnail.id);
     }
     closeUpdateTaskModal();
