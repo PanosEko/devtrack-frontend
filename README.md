@@ -2,6 +2,9 @@
 The DevTrack Frontend repository contains the frontend code for the DevTrack web application. It is built using React, Next.js, Tailwind CSS, Zustand, and other relevant technologies, all written in TypeScript. 
 The frontend is responsible for displaying the page content, handling user interactions, and making requests to the authentication and resource servers.
 
+![image](https://github.com/PanosEko/devtrack-frontend/assets/93736094/3bfc6d6a-f8f0-42de-986f-da31e4fc5e15)
+
+
 ## Features
 - User Authentication: Sign up and log in functionality to securely authenticate users.
 - Kanban Board: Display tasks in a kanban-style board with columns such as "Todo" and "Done."
