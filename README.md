@@ -10,12 +10,11 @@ The frontend is responsible for displaying the page content, handling user inter
 - Responsive Design: Ensure optimal user experience across different devices and screen sizes.
 - AddTaskModal Component: Utilize Headless UI to create a modal component for displaying task details or additional actions.
 ## Technologies Used
-- Next.js: React framework for building server-rendered and statically exported applications, written in TypeScript.
-- React: JavaScript library for building user interfaces, written in TypeScript.
-- Tailwind CSS: Utility-first CSS framework for rapid UI development.
-- Zustand: Lightweight state management library for React applications, written in TypeScript.
-- Headless UI: Collection of accessible and reusable UI components.
+- Next.js: React framework for building server-rendered and statically exported applications.
 - TypeScript: A statically typed superset of JavaScript that enhances code quality and maintainability.
+- Tailwind CSS: Utility-first CSS framework for rapid UI development.
+- Zustand: Lightweight state management library for React applications.
+- Headless UI: Collection of accessible and reusable UI components.
 
 ## Important Note
 
