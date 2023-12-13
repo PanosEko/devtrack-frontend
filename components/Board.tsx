@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useBoardStore } from "@/store/BoardStore";
 import Column from "@/components/Column";
 import { updateTaskStatusInDB} from "@/lib/api/resourcesApi";
 import { toast, Toaster } from "react-hot-toast";
+import { LoadingOverlay } from "@/components/LoadingOverlay";
+
 
 function Board() {
   const [board, getBoard, setBoardState] = useBoardStore((state) => [
@@ -12,8 +14,10 @@ function Board() {
     state.setBoardState,
   ]);
 
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     getBoard();
+    setLoading(false)
   }, [getBoard]);
 
   const handleOnDragEnd = async (result: DropResult) => {
@@ -111,11 +115,20 @@ function Board() {
     }
   };
 
+  // if (loading) {
+  //   return (
+  //       <div>
+  //         <LoadingScreen />
+  //       </div>
+  //   );
+  // }
+
   return (
-    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
       <div>
         <Toaster />
       </div>
+        {loading &&<div><LoadingOverlay /></div>}
       <Droppable droppableId="board" direction="horizontal" type="column">
         {(provided) => (
           <div
@@ -136,41 +149,3 @@ function Board() {
 }
 
 export default Board;
-// updateTaskStatusInDB(taskMoved.id, finishCol.id)
-//   .then(() => {
-//     const finishTasks = Array.from(finishCol.tasks);
-//     finishTasks.splice(destination.index, 0, taskMoved);
-//
-//     const newColumns = new Map(board.columns);
-//     const newCol = {
-//       id: startCol.id,
-//       tasks: newTasks,
-//     };
-//
-//
-//     newColumns.set(startCol.id, newCol);
-//     newColumns.set(finishCol.id, {
-//       id: finishCol.id,
-//       tasks: finishTasks,
-//     });
-//     taskMoved.status = finishCol.id;
-//     setBoardState({ ...board, columns: newColumns });
-//   })
-//   .catch((error: any) => {
-//     // Revert changes
-//     newTasks.splice(destination.index, 0, taskMoved);
-//     const newCol = {
-//       id: startCol.id,
-//       tasks: newTasks,
-//     };
-//     const newColumns = new Map(board.columns);
-//     newColumns.set(startCol.id, newCol);
-//
-//     setBoardState({
-//       ...board,
-//       columns: newColumns,
-//     });
-//
-//     toast.error("Connection lost. Task status not updated.");
-//     console.log(error);
-//   });

@@ -7,6 +7,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { refreshToken } from "@/lib/api/authApi";
 import { LoadingScreen } from "@/components/LoadingScreen";
 
+
 export default function Home() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,6 @@ export default function Home() {
       },
       14 * 60 * 1000,
     );
-    // Clean up the interval when the component is unmounted
     return () => {
       clearInterval(interval);
     };
@@ -54,7 +54,7 @@ export default function Home() {
       <div>
         <Toaster />
       </div>
-      <Board />
+        <Board />
     </main>
   );
 }

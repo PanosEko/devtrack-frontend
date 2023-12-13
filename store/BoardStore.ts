@@ -5,6 +5,7 @@ import {
   deleteTaskInDB,
   updateTaskInDB,
 } from "@/lib/api/resourcesApi";
+import { getBoardSkeleton} from "@/lib/utils/getBoardSkeleton";
 
 interface BoardState {
   board: Board;
@@ -53,7 +54,9 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   setSearchString: (searchString) => set({ searchString }),
 
   getBoard: async () => {
-    const board = await fetchBoardData();
+    let board =  await getBoardSkeleton()
+    set({board})
+    board = await fetchBoardData();
     set({ board });
   },
 
