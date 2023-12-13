@@ -20,7 +20,7 @@ export default function Home() {
       .catch(() => {
         router.push("/login");
         setTimeout(() => {
-          toast.error("You are not logged in!");
+          toast("Please log in to continue");
         }, 1000);
       });
     // Set interval to refresh access token every 14 minutes

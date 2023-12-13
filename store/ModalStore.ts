@@ -30,7 +30,7 @@ export const useModalStore = create<ModalState>((set) => ({
 
     openUpdateTaskModal: (task: Task, taskIndex: number) =>{
         set({ isUpdateTaskModalOpen: true, task: task!, taskIndex: taskIndex!})},
-    closeUpdateTaskModal: () => set({ isUpdateTaskModalOpen: false, taskIndex: null}), // Clear the task
+    closeUpdateTaskModal: () => set({ isUpdateTaskModalOpen: false, taskIndex: null, imageFile: null}), // Clear the task
 
     setImageFile: (imageFile: File | null) => set({ imageFile }),
 
