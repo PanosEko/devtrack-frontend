@@ -11,6 +11,8 @@ interface BoardState {
   board: Board;
   getBoard: () => void;
   setBoardState: (board: Board) => void;
+  isBoardLoading: boolean;
+  setIsBoardLoading: (isBoardLoading: boolean) => void;
   taskInput: string;
   setTaskInput: (input: string) => void;
   taskType: TypedColumn;
@@ -45,6 +47,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     columns: new Map<TypedColumn, Column>(),
   },
 
+  isBoardLoading: true,
   taskInput: "",
   taskDescription: "",
   taskType: "TODO",
@@ -52,12 +55,14 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 
   searchString: "",
   setSearchString: (searchString) => set({ searchString }),
+  setIsBoardLoading: (isBoardLoading: boolean) => set({isBoardLoading}),
 
   getBoard: async () => {
     let board =  await getBoardSkeleton()
     set({board})
     board = await fetchBoardData();
     set({ board });
+
   },
 
   setBoardState: (board) => set({ board }),

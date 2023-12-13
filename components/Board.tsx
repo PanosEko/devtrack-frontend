@@ -8,16 +8,26 @@ import { LoadingOverlay } from "@/components/LoadingOverlay";
 
 
 function Board() {
-  const [board, getBoard, setBoardState] = useBoardStore((state) => [
+  const [board, getBoard, setBoardState ] = useBoardStore((state) => [
     state.board,
     state.getBoard,
     state.setBoardState,
   ]);
 
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // useEffect(() => {
+  //   getBoard();
+  // }, [getBoard]);
+
   useEffect(() => {
-    getBoard();
-    setLoading(false)
+    const fetchData = async () => {
+      setIsLoading(true);
+      await getBoard();
+      setIsLoading(false);
+    };
+
+    fetchData();
   }, [getBoard]);
 
   const handleOnDragEnd = async (result: DropResult) => {
@@ -128,7 +138,7 @@ function Board() {
       <div>
         <Toaster />
       </div>
-        {loading &&<div><LoadingOverlay /></div>}
+        {isLoading &&<div><LoadingOverlay /></div>}
       <Droppable droppableId="board" direction="horizontal" type="column">
         {(provided) => (
           <div
