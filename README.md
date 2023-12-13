@@ -29,7 +29,10 @@ Please note that the resource-auth server for this website is hosted on a free i
 You can access a live demo of the DevTrack web application here.
 
 Demo Credentials:
-- Username: demo_user
-- Password: demo_password
+- Username: user
+- Password: pass123!
 
 Loggin in with these demo credentials gives you access to a prepopulated kanban board with predefined tasks and images, allowing you to explore the functionality of DevTrack without having to create an account or add tasks manually. To add a new task just press the green button with the plus icon. To edit or view the details of a task just double click on the task.
+
+[DevTrack web app link](https://devtrack.dedyn.io).
+
