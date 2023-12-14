@@ -18,7 +18,7 @@ The frontend is responsible for displaying the page content, handling user inter
 - TypeScript: A statically typed superset of JavaScript that enhances code quality and maintainability.
 - Tailwind CSS: Utility-first CSS framework for UI development.
 
-  All frameworks and libraries listed [here:](https://github.com/PanosEko/devtrack-frontend/blob/master/package.json)
+### All frameworks and libraries listed [here:](https://github.com/PanosEko/devtrack-frontend/blob/master/package.json)
 
 ## Important Note
 
