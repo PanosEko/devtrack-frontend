@@ -1,4 +1,3 @@
-# DevTrack
 This repository contains the frontend code for the DevTrack web application. It is built using React, Next.js, Tailwind CSS and written in TypeScript. 
 The frontend is responsible for displaying the page content, handling user interactions, and making requests to the authentication and resource servers.
 
