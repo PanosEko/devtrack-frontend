@@ -42,4 +42,17 @@ Demo Credentials:
 
 Loggin in with these demo credentials gives you access to a prepopulated kanban board with predefined tasks and images, allowing you to explore the functionality of DevTrack without having to create an account or add tasks manually. To add a new task just press the green button with the plus icon. To edit or view the details of a task just double click on the task.
 
+## Screenshots
+
+![image](https://github.com/PanosEko/devtrack-frontend/assets/93736094/50ccdb14-7ddc-4d08-8174-06f993845aa4)
+
+![image](https://github.com/PanosEko/devtrack-frontend/assets/93736094/5c9378d5-98f6-472e-aed6-971a7fe6e855)
+
+![image](https://github.com/PanosEko/devtrack-frontend/assets/93736094/3efc0575-c523-4c8f-86ac-3b2fdef54d88)
+
+![image](https://github.com/PanosEko/devtrack-frontend/assets/93736094/45ee7627-9bee-46d7-9611-ee43a862f2bd)
+
+
+
+
 
