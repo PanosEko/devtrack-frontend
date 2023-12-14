@@ -12,7 +12,8 @@ The frontend is responsible for displaying the page content, handling user inter
 - Drag and Drop: Enable drag and drop functionality to move tasks between columns using a user-friendly interface.
 - Responsive Design: Ensure optimal user experience across different devices and screen sizes.
 - AddTaskModal Component: Utilize Headless UI to create a modal component for displaying task details or additional actions.
-## Frameworks and important libraries
+- 
+## Technologies used
 - Next.js: React framework for building server-rendered and statically exported applications.
 - TypeScript: A statically typed superset of JavaScript that enhances code quality and maintainability.
 - Tailwind CSS: Utility-first CSS framework for rapid UI development.
