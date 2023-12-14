@@ -29,10 +29,9 @@ The frontend is responsible for displaying the page content, handling user inter
 Please note that the resource-auth server for this website is hosted on a free instance on Render.com. As a result, there might be a delay of approximately 3 minutes when accessing the website for the first time however after that everything will work as intended. The free hosting instance on Render.com may spin down after a period of inactivity, causing this initial delay. Subsequent accesses to the website will be instant once the server is up and running. I apologize for any inconvenience caused by this delay and appreciate your patience. 
 
 ## Live Demo
-You can access a live demo of the DevTrack web application here. 
-
 ‼️Read the important note section before accessing.‼️
 
+You can access a live demo of the DevTrack web application here. 
 
 [DevTrack web app link](https://devtrack.dedyn.io).
 
