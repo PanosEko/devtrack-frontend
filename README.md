@@ -36,7 +36,7 @@ You can access a live demo of the DevTrack web application here.
 [DevTrack web app link](https://devtrack.dedyn.io).
 
 
-Demo Credentials:
+If you dont want to sign up use these credentials:
 - Username: user
 - Password: pass123!
 
