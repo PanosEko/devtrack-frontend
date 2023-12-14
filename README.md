@@ -16,7 +16,7 @@ The frontend is responsible for displaying the page content, handling user inter
 ## Main Technologies
 - Next.js 13: React framework built on top of Node.Js. Used for developing server-rendered and statically exported applications.
 - TypeScript: A statically typed superset of JavaScript that enhances code quality and maintainability.
-- Tailwind CSS: Utility-first CSS framework for UI development.
+- Tailwind CSS: A highly customizable utility-first CSS framework for UI development.
 
  All frameworks and libraries listed [here](https://github.com/PanosEko/devtrack-frontend/blob/master/package.json)
 
