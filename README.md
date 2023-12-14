@@ -6,13 +6,13 @@ The frontend is responsible for displaying the page content, handling user inter
 
 
 ## Features
-- User Authentication: Sign up and log in functionality to securely authenticate users.
-- Kanban Board: Display tasks in a kanban-style board with columns such as "Todo" and "Done."
-- Task Management: Add, edit, and delete tasks with a title, description, and optional image upload.
-- Drag and Drop: Enable drag and drop functionality to move tasks between columns using a user-friendly interface.
-- Responsive Design: Ensure optimal user experience across different devices and screen sizes.
-- AddTaskModal Component: Utilize Headless UI to create a modal component for displaying task details or additional actions.
-- 
+- Automatic login: Refresh tokens utilized to enable automatic login and seamless access token refreshing, eliminating the need for users to log in again after closing the website.
+- Kanban Board Task Management: Efficiently manage tasks with a Kanban board that allows you to add, edit, and delete tasks. Each task includes a title, description, status, and the option to attach images.
+- Drag and Drop: Enjoy a user-friendly interface with drag and drop functionality, allowing you to effortlessly move columns and tasks between columns.
+- Responsive Design: Optimal user experience across various devices and screen sizes, guaranteeing accessibility and usability regardless of the user's device.
+- Optimized Image Loading: Enhanced loading speed by converting images to thumbnails, providing a seamless browsing experience. Users also have the option to download the original images in full size when needed.
+- User Authentication: Secure user authnetication using a combination of JWT (JSON Web Tokens) for access and refresh tokens and HTTP-only cookies.
+- Search Functionality: Easily find specific tasks using the search bar
 ## Technologies used
 - Next.js: React framework for building server-rendered and statically exported applications.
 - TypeScript: A statically typed superset of JavaScript that enhances code quality and maintainability.
