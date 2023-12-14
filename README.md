@@ -31,10 +31,7 @@ Please note that the resource-auth server for this website is hosted on a free i
 ## Live Demo
 ‼️Read the important note section before accessing.‼️
 
-You can access a live demo of the DevTrack web application here. 
-
-[DevTrack web app link](https://devtrack.dedyn.io).
-
+You can access a live demo of the DevTrack web application here: [DevTrack web app link](https://devtrack.dedyn.io).
 
 If you dont want to sign up use these credentials:
 - Username: user
