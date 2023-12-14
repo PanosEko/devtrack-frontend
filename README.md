@@ -14,7 +14,7 @@ The frontend is responsible for displaying the page content, handling user inter
 - Optimized Image Loading: Enhanced loading speed by converting images to thumbnails, providing a seamless browsing experience. Users also have the option to download the original images in full size when needed.
 - Search Functionality: Easily find specific tasks using the search bar.
 ## Main Technologies
-- Next.js 13: React framework built on top of Node.Js used for developing server-rendered and statically exported applications.
+- Next.js 13: React framework built on top of Node.Js. Used for developing server-rendered and statically exported applications.
 - TypeScript: A statically typed superset of JavaScript that enhances code quality and maintainability.
 - Tailwind CSS: Utility-first CSS framework for UI development.
 
