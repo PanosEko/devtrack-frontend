@@ -43,7 +43,9 @@ export default function SignupPage() {
       const response = await registerUser(user);
       if (response.status === 200) {
         router.push("/home");
+        toast.dismiss();
         setTimeout(() => {
+          toast("Edit a task by double clicking on the task.");
           toast(() => (
             <span className="flex items-center">
               <span>
@@ -58,7 +60,13 @@ export default function SignupPage() {
       }
     } catch (error: any) {
       if ("response" in error) {
-        toast.error(error.response.data);
+        if(error.response.data.errorDetails){
+          for(const key in error.response.data.errorDetails){
+            toast.error(error.response.data.errorDetails[key]);
+          }
+        } else{
+          toast.error(error.response.data.errorMessage);
+        }
       }else{
         toast.error("Something went wrong. Please try again later");
       }

@@ -39,11 +39,12 @@ export default function LogInPage() {
       }
       const response = await authenticateUser(user);
       if (response.status === 200) {
+        toast.dismiss();
         router.push("/home");
       }
     } catch (error: any) {
       if ("response" in error) {
-        toast.error(error.response.data);
+        toast.error(error.response.data.errorMessage);
       } else {
         toast.error("Something went wrong. Please try again later");
       }

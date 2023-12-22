@@ -85,6 +85,7 @@ function UpdateTaskModal() {
       // if the original image has been deleted in app, delete it from the database
       if (originalImageIdRef.current !== null) {
         console.log("deleting original image", originalImageIdRef.current)
+        await deleteImageInDB(originalImageIdRef.current);
       }
       updateTask(taskInput, taskType, taskDescription, task, taskIndex, thumbnail);
       closeUpdateTaskModal();
