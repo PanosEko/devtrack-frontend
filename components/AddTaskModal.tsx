@@ -76,7 +76,6 @@ function AddTaskModal() {
     setIsSubmitting(true)
     try{
       await addTask(taskInput, taskType, taskDescription, thumbnail);
-      await delay(2000)
       closeAddTaskModal();
     } catch (error) {
       toast.error("Oops something went wrong. Your task was not saved.");

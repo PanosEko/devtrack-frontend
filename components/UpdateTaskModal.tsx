@@ -79,9 +79,7 @@ function UpdateTaskModal() {
     }
   }, [task,isUpdateTaskModalOpen]);
 
-  function delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
-  }
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true)
