@@ -34,7 +34,7 @@ function TaskCard({
     try {
       await deleteTask(index, task, id);
     } catch (error) {
-      toast.error("Connection lost. Task not deleted.");
+      toast.error("Oops! Something went wrong. Task was not deleted.");
     }
   }
   return (
@@ -48,7 +48,7 @@ function TaskCard({
       <div className="flex justify-between items-center p-5">
         <p style={{ fontWeight: 500 }}>{task.title}</p>
         <button
-          onClick={() => handleDeleteTask(index, task, id)}
+            onClick={() => handleDeleteTask(index, task, id)}
           className="text-red-500 hover:text-red-600"
         >
           <XCircleIcon className=" h-6 w-6" />

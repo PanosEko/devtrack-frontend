@@ -48,12 +48,12 @@ function AddTaskRadioGroup() {
                       ? "ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-500"
                       : ""
                   }
-                                    ${
-                                      checked
-                                        ? `${type.color} bg-opacity-75 text-white`
-                                        : "bg-white"
-                                    }
-                                        relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
+                  ${
+                    checked
+                      ? `${type.color} bg-opacity-75 text-white`
+                      : "bg-white"
+                  }
+                      relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none `
                 }
               >
                 {({ checked }) => (

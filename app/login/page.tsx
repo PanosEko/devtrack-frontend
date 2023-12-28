@@ -46,7 +46,7 @@ export default function LogInPage() {
       if ("response" in error) {
         toast.error(error.response.data.errorMessage);
       } else {
-        toast.error("Something went wrong. Please try again later");
+        toast.error("Oops something went wrong. Please try again later");
       }
     } finally {
       setIsLoggingIn(false);

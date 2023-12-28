@@ -14,12 +14,12 @@ function Header() {
   ]);
 
   const handleLogout = async () => {
-    try {
+    // try {
       await logOutUser();
       router.push("/login");
-    } catch (error: any) {
-      toast.error("Connection lost. You are still logged in.");
-    }
+    // } catch (error: any) {
+    //   toast.error("Connection lost. You are still logged in.");
+    // }
   };
 
   return (

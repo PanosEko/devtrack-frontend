@@ -96,7 +96,9 @@ function Column({ id, tasks, index }: Props) {
                       className="text-green-500 hover:text-green-600"
                     >
                       <PlusCircleIcon className="h-10 w-10" />
+
                     </button>
+
                   </div>
                 </div>
               </div>

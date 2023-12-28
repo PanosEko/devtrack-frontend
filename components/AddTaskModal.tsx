@@ -9,10 +9,13 @@ import { PhotoIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { deleteImageInDB, uploadImageInDB } from "@/lib/api/resourcesApi";
 import { toast } from "react-hot-toast";
+import {CheckIcon} from "@heroicons/react/24/outline";
 
 function AddTaskModal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
 
   const [
     thumbnail,
@@ -62,22 +65,37 @@ function AddTaskModal() {
     }
   }, [status]);
 
+  function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (status === null) return;
-    setIsUploading(true)
+    setImageFile(null);
+    setIsSubmitting(true)
     try{
       await addTask(taskInput, taskType, taskDescription, thumbnail);
+      await delay(2000)
       closeAddTaskModal();
     } catch (error) {
       toast.error("Oops something went wrong. Your task was not saved.");
     } finally {
-      setIsUploading(false)
+      setIsSubmitting(false)
     }
 
   };
 
   const handleImageUpload = async (image: File) => {
+    if (!image.type.startsWith("image/")) {
+      toast.error("File was not recognized as valid image type");
+      return;
+    }
+    if(image.size/1024 > 10000) {
+      toast.error("Image size must be less than 10MB");
+      return;
+    }
+    setImageFile(image);
     try {
       setIsUploading(true);
       const response = await uploadImageInDB(image);
@@ -141,10 +159,6 @@ function AddTaskModal() {
                 className="w-full max-w-lg transform overflow-hidden rounded-2xl
                             bg-white p-6 text-left align-middle shadow-xl transition-all"
               >
-                {/*<Dialog.Title as="h3"*/}
-                {/*className="text-lg font-medium leading-6 text-gray-900 pb-2">*/}
-                {/*Task Title:*/}
-                {/*</Dialog.Title>*/}
 
                 <div className="mt-2">
                   <input
@@ -217,7 +231,7 @@ function AddTaskModal() {
                       // src={URL.createObjectURL(image)}
                       src={`data:image/jpeg;base64,${thumbnail.data}`}
                       onClick={() => {
-                        if (thumbnail) {
+                        if (thumbnail && !isSubmitting) {
                           deleteImageInDB(thumbnail.id);
                         }
                         setThumbnail(null);
@@ -229,22 +243,30 @@ function AddTaskModal() {
                     ref={imagePickerRef}
                     hidden
                     onChange={async (e) => {
-                      if (!e.target.files![0].type.startsWith("image/")) return;
-                      setImageFile(e.target.files![0]);
                       await handleImageUpload(e.target.files![0]);
                     }}
                   />
 
-                  <div className="text-center p-2">
-                    <button
-                      type="submit"
-                      className="bg-blue-100 text-blue-900 p-2 rounded-md focus-visible:ring-2
-                                            focus-visible:ring-blue-900 focus:outline-none focus-visible:ring-offset-2
-                                            disabled:text-gray-300 disabled:bg-gray-100 "
-                      disabled={!taskInput || isUploading}
-                    >
-                      Save Task
-                    </button>
+                  <div className="text-center p-2 ">
+                    {isSubmitting && (
+                        <button className="bg-blue-200 p-2 mr-5 rounded-md">
+                          <svg className="w-5 h-5 text-white animate-spin" fill="none"
+                               viewBox="0 0 24 24"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75"
+                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  fill="currentColor"></path>
+                          </svg>
+                        </button>
+                    )}
+                    {!isSubmitting && (
+                      <button type="submit" className="bg-blue-200 text-blue-900 p-2 mr-5 rounded-md hover:bg-blue-300
+                      disabled:text-gray-300 disabled:bg-gray-100" disabled={!taskInput || isUploading || isSubmitting}>
+                        <CheckIcon className="h-4 w-4 mr-2 inline-block" />
+                        Save task
+                      </button>
+                    )}
                   </div>
                 </div>
               </Dialog.Panel>

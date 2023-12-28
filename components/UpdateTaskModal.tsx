@@ -6,8 +6,9 @@ import { useModalStore } from "@/store/ModalStore";
 import { useBoardStore } from "@/store/BoardStore";
 import AddTaskRadioGroup from "@/components/UpdateTaskRadioGroup";
 import { PhotoIcon } from "@heroicons/react/20/solid";
-import { ArrowDownTrayIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { ArrowDownTrayIcon, TrashIcon, CheckIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+
 import {
   deleteImageInDB,
   fetchImage,
@@ -19,8 +20,9 @@ import { toast } from "react-hot-toast";
 function UpdateTaskModal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
   // used to delete the original image in the database if the user uploads a new one and saves the changes
-  // let originalImageId: string | null = null;
   const originalImageIdRef = useRef<string | null>(null);
 
 
@@ -62,7 +64,9 @@ function UpdateTaskModal() {
     state.setImageFile,
     state.taskIndex,
   ]);
+
   useEffect(() => {
+    console.log("task", task)
     if (task) {
       setTaskInput(task.title);
       setTaskType(task.status);
@@ -73,12 +77,15 @@ function UpdateTaskModal() {
         setThumbnail(null);
       }
     }
-  }, [task, isUpdateTaskModalOpen]);
+  }, [task,isUpdateTaskModalOpen]);
 
+  function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true)
     if (task===null || taskIndex===null) {
-      console.log("Task or taskIndex is null")
       return;
     }
     try {
@@ -86,15 +93,29 @@ function UpdateTaskModal() {
       if (originalImageIdRef.current !== null) {
         console.log("deleting original image", originalImageIdRef.current)
         await deleteImageInDB(originalImageIdRef.current);
+        originalImageIdRef.current = null;
+
       }
-      updateTask(taskInput, taskType, taskDescription, task, taskIndex, thumbnail);
+      await updateTask(taskInput, taskType, taskDescription, task, taskIndex, thumbnail);
       closeUpdateTaskModal();
     } catch (error) {
-      toast.error("Connection lost. Task not updated.");
+      toast.error("Oops something went wrong. Your task was not saved.");
+    } finally {
+      setIsSubmitting(false)
     }
   };
 
   const handleImageUpload = async (image: File) => {
+    if (!image.type.startsWith("image/")) {
+      toast.error("File was not recognized as valid image type");
+      return;
+    }
+    if(image.size/1024 > 10000) {
+      setImageFile(null);
+      toast.error("Image size must be less than 10MB");
+      return;
+    }
+    setImageFile(image);
     try {
       setIsUploading(true);
       const response = await uploadImageInDB(image);
@@ -103,25 +124,29 @@ function UpdateTaskModal() {
         data: response.data,
       };
       setThumbnail(thumbnail);
-      setIsUploading(false);
     } catch (error) {
       console.error(error);
-      setIsUploading(false);
+      toast("Oops something went wrong. Your image was not saved.")
+    } finally {
+        setIsUploading(false);
     }
   };
 
   const handleImageDelete = async () => {
     if (thumbnail === null || task === null) return;
-    // if the original image has been deleted in app, store its id
+    // if the original image is deleted in app, store its id
     if (originalImageIdRef.current === null) {
-      console.log("storing original image id", thumbnail.id)
       originalImageIdRef.current = thumbnail.id;
-      console.log("original image id stored", originalImageIdRef.current)
     }
     // if the current thumbnail is not the original image, delete it from the database
     if (thumbnail.id !== originalImageIdRef.current) {
-      deleteImageInDB(thumbnail.id);
-      task.thumbnail = null;
+      try {
+        deleteImageInDB(thumbnail.id);
+        task.thumbnail = null;
+      } catch (error) {
+        toast("Oops something went wrong. Your image was not deleted.")
+      }
+
     }
     setThumbnail(null);
     setImageFile(null);
@@ -138,15 +163,15 @@ function UpdateTaskModal() {
       }
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsUploading(false);
-    }
+        toast("Oops something went wrong. Your image could not be downloaded.")
+      }
   };
 
   const handleClose = async () => {
     // if the original image has been deleted in app, delete it from the database
     if (thumbnail && originalImageIdRef.current !== null) {
       deleteImageInDB(thumbnail.id);
+      originalImageIdRef.current = null;
     }
     closeUpdateTaskModal();
   };
@@ -263,8 +288,6 @@ function UpdateTaskModal() {
                     ref={imagePickerRef}
                     hidden
                     onChange={async (e) => {
-                      if (!e.target.files![0].type.startsWith("image/")) return;
-                      setImageFile(e.target.files![0]);
                       await handleImageUpload(e.target.files![0]);
                     }}
                   />
@@ -272,10 +295,9 @@ function UpdateTaskModal() {
                   <div className="text-center p-2">
                     <button
                       type="button"
-                      className="bg-blue-100 text-blue-900 p-2 mr-5 rounded-md focus-visible:ring-2
-                                            focus-visible:ring-blue-900 focus:outline-none focus-visible:ring-offset-2
+                      className="bg-pink-100 text-blue-900 p-2 mr-5 rounded-md hover:bg-pink-200
                                             disabled:text-gray-300 disabled:bg-gray-100 "
-                      disabled={isUploading || !thumbnail}
+                      disabled={isUploading || !thumbnail || isSubmitting}
                       onClick={handleImageDownload}
                     >
                       <ArrowDownTrayIcon className="h-4 w-4 mr-2 inline-block" />
@@ -283,26 +305,37 @@ function UpdateTaskModal() {
                     </button>
                     <button
                       type="button"
-                      className="bg-red-100 text-blue-900 p-2 rounded-md focus-visible:ring-2
-                                            focus-visible:ring-blue-900 focus:outline-none focus-visible:ring-offset-2
+                      className="bg-red-100 text-blue-900 p-2 rounded-md hover:bg-red-200
                                             disabled:text-gray-300 disabled:bg-gray-100 "
-                      disabled={isUploading || !thumbnail}
+                      disabled={isUploading || !thumbnail || isSubmitting}
                       onClick={handleImageDelete}
                     >
                       <TrashIcon className="h-4 w-4 mr-2 inline-block" />
                       Delete Image
                     </button>
                   </div>
-                  <div className="text-center p-2">
-                    <button
-                      type="submit"
-                      className="bg-blue-100 text-blue-900 p-2 rounded-md focus-visible:ring-2
-                                            focus-visible:ring-blue-900 focus:outline-none focus-visible:ring-offset-2
-                                            disabled:text-gray-300 disabled:bg-gray-100 "
-                      disabled={!taskInput || isUploading}
-                    >
-                      Save Changes
-                    </button>
+                  <div className="text-center justify-center items-center p-2">
+                    {isSubmitting && (
+                        <div className="flex text-center justify-center items-center ">
+                        <button className="flex justify-center items-center bg-blue-300 p-2 mr-5 rounded-md min-w-[135px] min-h-[40px]">
+                          <svg className="w-5 h-5 text-white animate-spin" fill="none"
+                               viewBox="0 0 24 24"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75"
+                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  fill="currentColor"></path>
+                          </svg>
+                        </button>
+                        </div>
+                    )}
+                    {!isSubmitting && (
+                        <button type="submit" className="min-w-[135px] min-h-[40px] bg-blue-200 text-blue-900 p-2 mr-5 rounded-md hover:bg-blue-300
+                      disabled:text-gray-300 disabled:bg-gray-100" disabled={!taskInput || isUploading || isSubmitting}>
+                          <CheckIcon className="h-4 w-4 mr-2 inline-block" />
+                          Save changes
+                        </button>
+                    )}
                   </div>
                 </div>
               </Dialog.Panel>

@@ -143,7 +143,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 
     set({ board: { columns: newColumns } });
 
-    set({ taskInput: "" });
+    // set({ taskInput: "" });
     set((state) => {
       const newColumns = new Map(state.board.columns);
 

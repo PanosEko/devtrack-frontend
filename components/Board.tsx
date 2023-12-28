@@ -16,10 +16,6 @@ function Board() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   getBoard();
-  // }, [getBoard]);
-
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -124,14 +120,6 @@ function Board() {
 
     }
   };
-
-  // if (loading) {
-  //   return (
-  //       <div>
-  //         <LoadingScreen />
-  //       </div>
-  //   );
-  // }
 
   return (
       <DragDropContext onDragEnd={handleOnDragEnd}>
