@@ -65,10 +65,6 @@ function AddTaskModal() {
     }
   }, [status]);
 
-  function delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
-  }
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (status === null) return;
@@ -90,8 +86,8 @@ function AddTaskModal() {
       toast.error("File was not recognized as valid image type");
       return;
     }
-    if(image.size/1024 > 10000) {
-      toast.error("Image size must be less than 10MB");
+    if(image.size/1024 > 5000) {
+      toast.error("Image size must be less than 5MB");
       return;
     }
     setImageFile(image);

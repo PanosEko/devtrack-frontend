@@ -108,9 +108,9 @@ function UpdateTaskModal() {
       toast.error("File was not recognized as valid image type");
       return;
     }
-    if(image.size/1024 > 10000) {
+    if(image.size/1024 > 5000) {
       setImageFile(null);
-      toast.error("Image size must be less than 10MB");
+      toast.error("Image size must be less than 5MB");
       return;
     }
     setImageFile(image);
